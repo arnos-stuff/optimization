@@ -1,0 +1,16 @@
+{
+    "paper_bgcolor":"rgba(177, 145, 231, 0.3)",
+    "plot_bgcolor":"rgba(121, 78, 193, 0.48)",
+    "modebar":{
+        "bgcolor":"rgba(177, 145, 231, 0.3)"
+    },
+    "font":{
+        "color":"#ffffff"
+    },
+    "title":{
+        "font":{
+            "color":"#ffffff"
+        }
+    },
+    "template":"plotly_white"
+}

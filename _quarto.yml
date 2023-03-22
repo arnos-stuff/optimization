@@ -1,0 +1,70 @@
+project:
+  type: book
+  title: "Optimization basics"
+
+
+
+book:
+  title: "Optimization"
+  author: "Arno Veletanlic"
+  date: today
+  navbar:
+    show: true
+    search: true
+  chapters:
+    - basics/first-definitions.qmd
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+link-citations: true
+
+latex-auto-install: true
+latex-auto-install-preamble: true
+latex-auto-mk: true
+
+
+parallax-background-size: cover
+parallax-background-position: center
+parallax-background-repeat: no-repeat
+
+
+format:
+  html:
+    theme: quartz
+    css: ./theme/bootswatch/dist/quartz-custom/bootstrap.css
+    highlight-style: github
+    highlight-lines: true
+    smooth-scroll: true
+    html-math-method: katex
+    katex: true
+    katex-font: auto
+    katex-unicode: true
+    katex-unicode-font: auto
+
+    fig-asp: 0.75
+    fig-caption: true
+    fig-caption-position: bottom
+    fig-caption-justify: center
+    fig-caption-spacing: 0.5em
+    fig-caption-font-size: 0.8em
+    footnotes-hover: true
+    code-fold: true
+    code-tools: true
+    code-tools-position: top
+    include-in-header: 
+      - katex.html
+  pdf:
+    documentclass: scrreprt
+    latex-engine: luatex
+    latex-args: 
+      - --shell-escape
+    latex-auto-install: true
+    latex-auto-install-preamble: true
+    latex-auto-mk: true
+    latex-auto-mk-args: 
+      - --shell-escape
+
+

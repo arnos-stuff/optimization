@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "2d-examples"
+version = "0.1.0"
+description = ""
+authors = ["arnos-stuff <bcda0276@gmail.com>"]
+readme = "README.md"
+packages = [{include = "2d_examples"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+xarray = {extras = ["io"], version = "^2023.3.0"}
+plotly = "^5.13.1"
+dask = {extras = ["distributed"], version = "^2023.3.1"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

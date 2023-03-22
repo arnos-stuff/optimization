@@ -1,0 +1,169 @@
+/*-- scss:defaults --*/
+/*-- scss:rules --*/
+body {
+  background-image: linear-gradient(90deg, shade-color(#8765f5, 10%), shade-color(#6536d3, 10%), shade-color(rgba(80, 12, 163, 0.8901960784), 5%));
+}
+
+.table-secondary {
+  --bs-table-hover-color: $white;
+}
+
+.btn-secondary {
+  border: none;
+  color: #f6bded;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+  color: #f6bded;
+}
+.btn-secondary.disabled {
+  color: #f6bded;
+}
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
+  margin-left: 0;
+}
+
+.btn-group-vertical > .btn:not(:first-child),
+.btn-group-vertical > .btn-group:not(:first-child) {
+  margin-top: 0;
+}
+
+.bg-light .btn {
+  background-color: rgba(119, 8, 102, 0.2);
+}
+
+.input-group-text,
+.form-control::-webkit-file-upload-button {
+  background-color: transparent;
+  background-image: linear-gradient(125deg, rgba(246, 189, 237, 0.3), rgba(246, 189, 237, 0.2) 70%);
+  border: none;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  -moz-backdrop-filter: blur(5px);
+  -ms-backdrop-filter: blur(5px);
+  -o-backdrop-filter: blur(5px);
+}
+
+.input-group-text {
+  box-shadow: inset 1px 1px rgba(246, 189, 237, 0.2), inset -1px -1px rgba(246, 189, 237, 0.1);
+}
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: 0;
+  border-left: none;
+}
+
+.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+.input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3) {
+  border-right: none;
+}
+
+.form-select:not([multiple]) {
+  transition: border-color 0.15s ease-in-out;
+}
+.form-select:not([multiple]) option {
+  color: rgba(119, 8, 102, 0.5921568627);
+}
+
+.bg-light .form-control {
+  border-color: rgba(119, 8, 102, 0.2);
+  color: rgba(104, 42, 94, 0.7215686275);
+}
+.bg-light .form-control::placeholder {
+  color: rgba(119, 8, 102, 0.2);
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: inset 1px 1px rgba(246, 189, 237, 0.2), inset -1px -1px rgba(246, 189, 237, 0.1), 1px 3px 24px -1px rgba(119, 8, 102, 0.15);
+  background-color: transparent;
+  background-image: linear-gradient(125deg, rgba(246, 189, 237, 0.3), rgba(246, 189, 237, 0.2) 70%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  -moz-backdrop-filter: blur(5px);
+  -ms-backdrop-filter: blur(5px);
+  -o-backdrop-filter: blur(5px);
+}
+.dropdown-menu a {
+  color: #f6bded;
+}
+.dropdown-menu .text-muted {
+  color: rgba(246, 189, 237, 0.7) !important;
+}
+
+.selectize-dropdown {
+  border: none;
+  box-shadow: inset 1px 1px rgba(246, 189, 237, 0.2), inset -1px -1px rgba(246, 189, 237, 0.1), 1px 3px 24px -1px rgba(119, 8, 102, 0.15);
+  background-color: transparent;
+  background-image: linear-gradient(125deg, rgba(246, 189, 237, 0.3), rgba(246, 189, 237, 0.2) 70%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  -moz-backdrop-filter: blur(5px);
+  -ms-backdrop-filter: blur(5px);
+  -o-backdrop-filter: blur(5px);
+  background-color: transparent !important;
+}
+.selectize-dropdown a {
+  color: #f6bded;
+}
+.selectize-dropdown .text-muted {
+  color: rgba(246, 189, 237, 0.7) !important;
+}
+
+.nav-tabs .nav-link {
+  transition: none;
+}
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+  color: #f6bded;
+  isolation: auto;
+}
+.nav-tabs .nav-link, .nav-tabs .nav-link.disabled {
+  background-color: rgba(119, 8, 102, 0.2);
+}
+.nav-tabs .nav-item:first-child > .nav-link {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.nav-tabs .nav-item:last-child > .nav-link {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.nav-tabs .nav-item .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  border: none;
+  box-shadow: inset 1px 1px rgba(246, 189, 237, 0.2), inset -1px -1px rgba(246, 189, 237, 0.1), 1px 3px 24px -1px rgba(119, 8, 102, 0.15);
+  background-color: transparent;
+  background-image: linear-gradient(125deg, #f6bded, rgba(246, 189, 237, 0.9) 70%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  -moz-backdrop-filter: blur(5px);
+  -ms-backdrop-filter: blur(5px);
+  -o-backdrop-filter: blur(5px);
+  border-radius: 0.5rem;
+  transform: scale(1.1);
+}
+.nav-tabs .nav-item .nav-link.active a,
+.nav-tabs .nav-item.show .nav-link a {
+  color: #f6bded;
+}
+.nav-tabs .nav-item .nav-link.active .text-muted,
+.nav-tabs .nav-item.show .nav-link .text-muted {
+  color: rgba(246, 189, 237, 0.7) !important;
+}
+.nav-tabs .nav-item .nav-link.active:hover, .nav-tabs .nav-item .nav-link.active:focus,
+.nav-tabs .nav-item.show .nav-link:hover,
+.nav-tabs .nav-item.show .nav-link:focus {
+  color: rgba(104, 42, 94, 0.7215686275);
+}
+.nav-tabs .dropdown-menu {
+  border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link {
+  transition: none;
+}
+.nav-pills .nav-link:hover, .nav-pills .nav-link:focus {
+  color: #f6bded;
+  isolation: auto;
+}
+
+/*# sourceMappingURL=quartzno.css.map */
