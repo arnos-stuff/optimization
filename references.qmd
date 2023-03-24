@@ -2,3 +2,10 @@
 
 ::: {#refs}
 :::
+
+## LaTeX Macros {.unnumbered}
+
+::: {#latex-macros}
+$$\newcommand{\argmin}{\operatorname*{argmin}}$$
+$$\newcommand{\argmax}{\operatorname*{argmax}}$$
+:::

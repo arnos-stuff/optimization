@@ -1,10 +1,12 @@
 {
   "hosting": {
-    "public": "_book",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/*.qmd",
+      "**/*.json"
     ]
   },
   "storage": {

@@ -1,6 +1,7 @@
 project:
   type: book
   title: "Optimization basics"
+  output-dir: public
 
 
 
@@ -12,11 +13,28 @@ book:
     show: true
     search: true
   chapters:
-    - basics/first-definitions.qmd
-    - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+  - index.qmd
+  - preface.qmd
+  - part: "Basics"
+    chapters: 
+      - basics/first-definitions.qmd
+      - basics/the-jacobian.qmd
+  # - part: simple-optimization.qmd
+  #   chapters:
+  #     - line-search.qmd
+  #     - linear-programming.qmd
+  #     - quadratic-programming.qmd
+  #     - nonlinear-programming.qmd
+  # - part: advanced-optimization.qmd
+  #   chapters:
+  #     - the-lagrangian.qmd
+  #     - the-lagrange-multiplier.qmd
+  #     - the-kkt-conditions.qmd
+  - part: "About"
+    chapters:
+      - about.qmd
+
+  
 
 bibliography: references.bib
 link-citations: true
@@ -29,13 +47,18 @@ latex-auto-mk: true
 parallax-background-size: cover
 parallax-background-position: center
 parallax-background-repeat: no-repeat
-
+highlight-style: custom.theme
 
 format:
   html:
+    highlight-style: custom.theme
     theme: quartz
-    css: ./theme/bootswatch/dist/quartz-custom/bootstrap.css
-    highlight-style: github
+    css:
+      - ./theme/bootswatch/dist/quartz/bootstrap.css
+      - ./theme/bootswatch/dist/quartz-custom/bootstrap.css
+      - ./extras.css
+      - ./theme.scss
+
     highlight-lines: true
     smooth-scroll: true
     html-math-method: katex
@@ -43,6 +66,7 @@ format:
     katex-font: auto
     katex-unicode: true
     katex-unicode-font: auto
+    fig-responsive: true
 
     fig-asp: 0.75
     fig-caption: true
@@ -56,15 +80,5 @@ format:
     code-tools-position: top
     include-in-header: 
       - katex.html
-  pdf:
-    documentclass: scrreprt
-    latex-engine: luatex
-    latex-args: 
-      - --shell-escape
-    latex-auto-install: true
-    latex-auto-install-preamble: true
-    latex-auto-mk: true
-    latex-auto-mk-args: 
-      - --shell-escape
 
 

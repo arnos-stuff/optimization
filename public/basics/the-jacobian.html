@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Optimization - 3&nbsp; The Jacobian</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../about.html" rel="next">
+<link href="../basics/first-definitions.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+<script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/copy-tex.min.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/mathtex-script-type.min.js" integrity="sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/mhchem.min.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK+rPp+h1x/izR7xMkdMyuwkcZCWdxO+RSwIFtJXN" crossorigin="anonymous"></script>
+
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="../theme/bootswatch/dist/quartz/bootstrap.css">
+<link rel="stylesheet" href="../theme/bootswatch/dist/quartz-custom/bootstrap.css">
+<link rel="stylesheet" href="../extras.css">
+<link rel="stylesheet" href="../theme.scss">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Optimization</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Basics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../basics/first-definitions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Optimization basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../basics/the-jacobian.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">About</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">About</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-proof" id="toc-the-proof" class="nav-link active" data-scroll-target="#the-proof"><span class="toc-section-number">3.1</span>  The Proof</a></li>
+  <li><a href="#a-small-example-using-python" id="toc-a-small-example-using-python" class="nav-link" data-scroll-target="#a-small-example-using-python"><span class="toc-section-number">3.2</span>  A small example using python</a>
+  <ul class="collapse">
+  <li><a href="#the-jacobian" id="toc-the-jacobian" class="nav-link" data-scroll-target="#the-jacobian"><span class="toc-section-number">3.2.1</span>  The Jacobian</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>The theorem that defines and cements the derivatives is the following:</p>
+<blockquote class="blockquote">
+<p>Let <span class="math inline">f\colon \mathbb{R}^n \to \mathbb{R}^m</span> be a function. Then, at each point <span class="math inline">x</span> where <span class="math inline">f</span> is differentiable, there is a <strong>unique matrix</strong> <span class="math inline">M(x)</span> so that: <span class="math display"> f(x+h) \approx f(x) + M(x)h +\varepsilon (h)</span> where <span class="math inline">\varepsilon (h)</span> is a small vector in <span class="math inline">\mathbb{R}^m</span> that goes to <span class="math inline">0</span> faster than <span class="math inline">h</span> does<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+</blockquote>
+<section id="the-proof" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-proof"><span class="header-section-number">3.1</span> The Proof</h2>
+<p>The uniqueness is fairly easy to prove, because if there are two matrices <span class="math inline">M_1</span> and <span class="math inline">M_2</span> such that <span class="math inline">f(x+h) \approx f(x) + M_1h</span> and <span class="math inline">f(x+h) \approx f(x) + M_2h</span>, then we can subtract the two equations, <span class="math display">(M_1 - M_2)h = \varepsilon_1 (h) + \varepsilon_2 (h)</span></p>
+<p>divide by <span class="math inline">\lvert{h}\rvert</span> to get that the LHS tends to <span class="math inline">M_1 - M_2</span> as <span class="math inline">h\to 0</span>, and the RHS tends to <span class="math inline">0</span> as <span class="math inline">h\to 0</span>, so we get that <span class="math inline">M_1 - M_2 = 0</span>.</p>
+<p>The existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix <span class="math inline">M(x)</span> has coefficients <span class="math inline">\left(\smash{\alpha_{ij}(x)}\right)_{i,j}</span>, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):</p>
+<span class="math display">\begin{aligned}
+f(x+h) &amp;= f(x) + M(x)h +\varepsilon (h) &amp;\\
+\iff f_j(x+h) &amp;= f_j(x) + \sum_{i=1}^m \alpha_{ij}(x)h_j + \varepsilon_j (h) &amp;\forall j\in\{1,\dots m\} \\
+\iff f_j(x_i+h_i) &amp;= f_j(x_i) + \sum_{i=1}^m \alpha_{ij}(x_i)h_j + \varepsilon_j (h_i) &amp;\forall j\in\{1,\dots m\},\,\forall i\in\{1,\dots n\} \\
+\end{aligned}</span>
+<p>This last set of equation is just a <span class="math inline">m\times n</span> grid of first order approximations for each <span class="math inline">f_j</span> at each <span class="math inline">x_i</span>, and we can solve for the <span class="math inline">\alpha_{ij}</span> by just taking the limit as <span class="math inline">h_i\to 0</span> for each <span class="math inline">i</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>If you hadn’t guessed before, each of these equations are looking very much like <span class="math display">\varphi(x+h) \approx \varphi(x) + \varphi'(x)h + \varepsilon(h)</span></p>
+<p>we know in 1D, and we can just take the limit as <span class="math inline">h\to 0</span> to get that <span class="math inline">\varphi'(x) = \alpha_{ij}(x)</span>.</p>
+<p>What this proves is 3 things:</p>
+<ol type="1">
+<li>The Jacobian is a matrix, and it is unique.</li>
+<li>The Jacobian is a linear operator, and it is continuous.</li>
+<li>The Jacobian matrix is populated by the partial derivatives of <span class="math inline">f</span>, that is</li>
+</ol>
+<p><span class="math display"> \textbf{Jac}[f](x) = \left[\dfrac{\partial f_j}{\partial x_i}(x)\right]_{\substack{1\leq i \leq m\\1\leq j \leq n}}</span></p>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Careful about the dimensions !
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The jacobian sends points from a <span class="math inline">n</span>-dimensional space to a <span class="math inline">m</span>-dimensional space, so the Jacobian matrix is a <span class="math inline">m\times n</span> matrix. This is why the partial derivatives are written in the order <span class="math inline">\dfrac{\partial f_j}{\partial x_i}</span>, because the <span class="math inline">j</span>th row of the matrix is the partial derivatives of <span class="math inline">f_j</span> with respect to the <span class="math inline">x_i</span>’s.</p>
+<p>This is very counterintuitive to anyone who works with the gradient <span class="math inline">\nabla f(x)</span>, which is a <span class="math inline">n</span>-dimensional vector, and is the transpose of the Jacobian matrix.</p>
+</div>
+</div>
+</section>
+<section id="a-small-example-using-python" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="a-small-example-using-python"><span class="header-section-number">3.2</span> A small example using python</h2>
+<p>Let’s take a look at a small example I made using python’s <code>sympy</code> library. Through <a href="https://www.math3d.org/">graphing increasingly complex 2D functions on an online tool</a>, I found a function that is complex enough for us to have fun, but not too complex that we can’t understand it.</p>
+<p>The function is:</p>
+<p><span class="math display">G(x,y) = \log\left[1+\left(x^{\frac{1}{3}} - y^{\frac{2}{3}}\right)^2\left(0.1+\sin \left(x\right)^2\cdot \cos \left(x\right)^2\right)^{-1}\right]
+</span></p>
+<p>But I think it’s easier to understand if we write it as:</p>
+<p><span class="math display"> G(x,y) = \log\left(1 + \dfrac{A(x,y)^2}{\gamma + B(x,y)^2}\right)</span></p>
+<p>with <span class="math inline">A(x,y) = x^{\frac{1}{3}} - y^{\frac{2}{3}}</span> and <span class="math inline">B(x,y) = \sin \left(x\right)\cdot \cos \left(x\right)</span>.</p>
+<p>We can plot this function using <code>plotly</code>:</p>
+<iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/Cost2DOptimPlot-Purple.html" title="Plot of the cost function $G(x,y)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+<p>Now let us see what happens if we slice this function <span class="math inline">G</span> along a ray</p>
+<p><span class="math display">\mathbf{Ray}(x_0) = \{ (x,y)\colon x = x_0\}</span></p>
+<p>where <span class="math inline">x_0</span> is a constant. We can see that the function <span class="math inline">G</span> is a function of <span class="math inline">y</span> only, and we can plot it as a function of <span class="math inline">y</span>:</p>
+<iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+<section id="the-jacobian" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="the-jacobian"><span class="header-section-number">3.2.1</span> The Jacobian</h3>
+<p>We can see that the function <span class="math inline">G</span> is a function of <span class="math inline">y</span> only, and we can plot it as a function of <span class="math inline">y</span>:</p>
+<p>This way we estimate the value <span class="math inline">\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)</span> at the point <span class="math inline">(x_0,y_0)</span></p>
+<p>I’m actually lazy enough that I didn’t want to do the math to find the Jacobian, so I just used <code>sympy</code> to do it for me. Here is the code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sdG <span class="op">=</span> sy.Matrix([</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,x)),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,y))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This gives us the frankly terrifying result:</p>
+<p><span class="math display">
+\mathbf{Jac}[G](x,y) \coloneqq \begin{bmatrix}
+\frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} &amp; &amp;
+- \frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}
+</span></p>
+
+
+<!-- -->
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>in the sense of a norm: <span class="math inline">\lvert x\rvert</span>, <span class="math inline">\varepsilon(h)/\lvert x\rvert\to 0</span> as <span class="math inline">\lvert x\rvert\to 0</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>There is a subtelty here, because we can’t really just let any <span class="math inline">h_i</span> to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we’ll use the euclidean norm <span class="math inline">\lvert \cdot \rvert</span>), then we get that the limit exists and is unique.)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../basics/first-definitions.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Optimization basics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../about.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">About</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Jacobian {.Jacobian}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>The theorem that defines and cements the derivatives is the following:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Let $f\colon \mathbb{R}^n \to \mathbb{R}^m$ be a function. Then, at each point $x$ where $f$ is differentiable, there is a **unique matrix** $M(x)$ so that:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; $$ f(x+h) \approx f(x) + M(x)h +\varepsilon (h)$$</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; where $\varepsilon (h)$ is a small vector in $\mathbb{R}^m$ that goes to $0$ faster than $h$ does</span><span class="ot">[^1]</span><span class="at">.</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ot">[^1]: </span>in the sense of a norm: $\lvert x\rvert$, $\varepsilon(h)/\lvert x\rvert\to 0$ as $\lvert x\rvert\to 0$.</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Proof</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>The uniqueness is fairly easy to prove, because if there are two matrices $M_1$ and $M_2$ such that $f(x+h) \approx f(x) + M_1h$ and $f(x+h) \approx f(x) + M_2h$, then we can subtract the two equations,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>$$(M_1 - M_2)h = \varepsilon_1 (h) + \varepsilon_2 (h)$$</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>divide by $\lvert{h}\rvert$ to get that the LHS tends to $M_1 - M_2$ as $h\to 0$, and the RHS tends to $0$ as $h\to 0$, so we get that $M_1 - M_2 = 0$.</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>The existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix $M(x)$ has coefficients $\left(\smash{\alpha_{ij}(x)}\right)_{i,j}$, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>f(x+h) &amp;= f(x) + M(x)h +\varepsilon (h) &amp;<span class="sc">\\</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>\iff f_j(x+h) &amp;= f_j(x) + \sum_{i=1}^m \alpha_{ij}(x)h_j + \varepsilon_j (h) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span> <span class="sc">\\</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>\iff f_j(x_i+h_i) &amp;= f_j(x_i) + \sum_{i=1}^m \alpha_{ij}(x_i)h_j + \varepsilon_j (h_i) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span>,\,\forall i\in<span class="sc">\{</span>1,\dots n<span class="sc">\}</span> <span class="sc">\\</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>This last set of equation is just a $m\times n$ grid of first order approximations for each $f_j$ at each $x_i$, and we can solve for the $\alpha_{ij}$ by just taking the limit as $h_i\to 0$ for each $i$<span class="ot">[^2]</span>. </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>If you hadn't guessed before, each of these equations are looking very much like </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>$$\varphi(x+h) \approx \varphi(x) + \varphi'(x)h + \varepsilon(h)$$</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a> we know in 1D, and we can just take the limit as $h\to 0$ to get that $\varphi'(x) = \alpha_{ij}(x)$.  </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>What this proves is 3 things:</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The Jacobian is a matrix, and it is unique.</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The Jacobian is a linear operator, and it is continuous.</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The Jacobian matrix is populated by the partial derivatives of $f$, that is</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>$$ \textbf{Jac}<span class="co">[</span><span class="ot">f</span><span class="co">](x)</span> = \left<span class="co">[</span><span class="ot">\dfrac{\partial f_j}{\partial x_i}(x)\right</span><span class="co">]</span>_{\substack{1\leq i \leq m<span class="sc">\\</span>1\leq j \leq n}}$$</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Careful about the dimensions !</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>The jacobian sends points from a $n$-dimensional space to a $m$-dimensional space, so the Jacobian matrix is a $m\times n$ matrix. This is why the partial derivatives are written in the order $\dfrac{\partial f_j}{\partial x_i}$, because the $j$th row of the matrix is the partial derivatives of $f_j$ with respect to the $x_i$'s.  </span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>This is very counterintuitive to anyone who works with the gradient $\nabla f(x)$, which is a $n$-dimensional vector, and is the transpose of the Jacobian matrix.</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## A small example using python</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>Let's take a look at a small example I made using python's <span class="in">`sympy`</span> library. Through <span class="co">[</span><span class="ot">graphing increasingly complex 2D functions on an online tool</span><span class="co">](https://www.math3d.org/)</span>, I found a function that is complex enough for us to have fun, but not too complex that we can't understand it.</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>The function is:</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>$$G(x,y) = \log\left<span class="co">[</span><span class="ot">1+\left(x^{\frac{1}{3}} - y^{\frac{2}{3}}\right)^2\left(0.1+\sin \left(x\right)^2\cdot \cos \left(x\right)^2\right)^{-1}\right</span><span class="co">]</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>But I think it's easier to understand if we write it as:</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>$$ G(x,y) = \log\left(1 + \dfrac{A(x,y)^2}{\gamma + B(x,y)^2}\right)$$</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>with $A(x,y) = x^{\frac{1}{3}} - y^{\frac{2}{3}}$ and $B(x,y) = \sin \left(x\right)\cdot \cos \left(x\right)$.</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>We can plot this function using <span class="in">`plotly`</span>:</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/Cost2DOptimPlot-Purple.html" title="Plot of the cost function $G(x,y)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>Now let us see what happens if we slice this function $G$ along a ray</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>$$\mathbf{Ray}(x_0) = <span class="sc">\{</span> (x,y)\colon x = x_0<span class="sc">\}</span>$$</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>where $x_0$ is a constant. We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Jacobian</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>This way we estimate the value $\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)$ at the point $(x_0,y_0)$</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>I'm actually lazy enough that I didn't want to do the math to find the Jacobian, so I just used <span class="in">`sympy`</span> to do it for me. Here is the code:</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>sdG <span class="op">=</span> sy.Matrix([</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,x)),</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,y))</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>This gives us the frankly terrifying result:</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>\mathbf{Jac}<span class="co">[</span><span class="ot">G</span><span class="co">](x,y)</span> \coloneqq \begin{bmatrix}</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>\frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} &amp; &amp;</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>\frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="ot">[^2]: </span>There is a subtelty here, because we can't really just let any $h_i$ to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we'll use the euclidean norm $\lvert \cdot \rvert$), then we get that the limit exists and is unique.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

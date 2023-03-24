@@ -1,5 +1,4 @@
 /*-- scss:defaults --*/
-/*-- scss:rules --*/
 body {
   background-image: linear-gradient(90deg, shade-color(#8765f5, 10%), shade-color(#6536d3, 10%), shade-color(rgba(80, 12, 163, 0.8901960784), 5%));
 }

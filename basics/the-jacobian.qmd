@@ -1,0 +1,117 @@
+
+
+# The Jacobian {.Jacobian}
+
+The theorem that defines and cements the derivatives is the following:
+
+> Let $f\colon \mathbb{R}^n \to \mathbb{R}^m$ be a function. Then, at each point $x$ where $f$ is differentiable, there is a **unique matrix** $M(x)$ so that:
+> $$ f(x+h) \approx f(x) + M(x)h +\varepsilon (h)$$
+> where $\varepsilon (h)$ is a small vector in $\mathbb{R}^m$ that goes to $0$ faster than $h$ does[^1].
+
+[^1]: in the sense of a norm: $\lvert x\rvert$, $\varepsilon(h)/\lvert x\rvert\to 0$ as $\lvert x\rvert\to 0$.
+
+
+## The Proof
+
+The uniqueness is fairly easy to prove, because if there are two matrices $M_1$ and $M_2$ such that $f(x+h) \approx f(x) + M_1h$ and $f(x+h) \approx f(x) + M_2h$, then we can subtract the two equations,
+$$(M_1 - M_2)h = \varepsilon_1 (h) + \varepsilon_2 (h)$$
+
+divide by $\lvert{h}\rvert$ to get that the LHS tends to $M_1 - M_2$ as $h\to 0$, and the RHS tends to $0$ as $h\to 0$, so we get that $M_1 - M_2 = 0$.
+
+The existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix $M(x)$ has coefficients $\left(\smash{\alpha_{ij}(x)}\right)_{i,j}$, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):
+
+\begin{aligned}
+f(x+h) &= f(x) + M(x)h +\varepsilon (h) &\\
+\iff f_j(x+h) &= f_j(x) + \sum_{i=1}^m \alpha_{ij}(x)h_j + \varepsilon_j (h) &\forall j\in\{1,\dots m\} \\
+\iff f_j(x_i+h_i) &= f_j(x_i) + \sum_{i=1}^m \alpha_{ij}(x_i)h_j + \varepsilon_j (h_i) &\forall j\in\{1,\dots m\},\,\forall i\in\{1,\dots n\} \\
+\end{aligned}
+
+This last set of equation is just a $m\times n$ grid of first order approximations for each $f_j$ at each $x_i$, and we can solve for the $\alpha_{ij}$ by just taking the limit as $h_i\to 0$ for each $i$[^2]. 
+
+If you hadn't guessed before, each of these equations are looking very much like 
+$$\varphi(x+h) \approx \varphi(x) + \varphi'(x)h + \varepsilon(h)$$
+
+ we know in 1D, and we can just take the limit as $h\to 0$ to get that $\varphi'(x) = \alpha_{ij}(x)$.  
+
+What this proves is 3 things:
+
+1. The Jacobian is a matrix, and it is unique.
+2. The Jacobian is a linear operator, and it is continuous.
+3. The Jacobian matrix is populated by the partial derivatives of $f$, that is
+
+$$ \textbf{Jac}[f](x) = \left[\dfrac{\partial f_j}{\partial x_i}(x)\right]_{\substack{1\leq i \leq m\\1\leq j \leq n}}$$
+
+
+::: {.callout-caution}
+## Careful about the dimensions !
+The jacobian sends points from a $n$-dimensional space to a $m$-dimensional space, so the Jacobian matrix is a $m\times n$ matrix. This is why the partial derivatives are written in the order $\dfrac{\partial f_j}{\partial x_i}$, because the $j$th row of the matrix is the partial derivatives of $f_j$ with respect to the $x_i$'s.  
+
+This is very counterintuitive to anyone who works with the gradient $\nabla f(x)$, which is a $n$-dimensional vector, and is the transpose of the Jacobian matrix.
+:::
+
+## A small example using python
+
+Let's take a look at a small example I made using python's `sympy` library. Through [graphing increasingly complex 2D functions on an online tool](https://www.math3d.org/), I found a function that is complex enough for us to have fun, but not too complex that we can't understand it.
+
+The function is:
+
+
+$$G(x,y) = \log\left[1+\left(x^{\frac{1}{3}} - y^{\frac{2}{3}}\right)^2\left(0.1+\sin \left(x\right)^2\cdot \cos \left(x\right)^2\right)^{-1}\right]
+$$
+
+But I think it's easier to understand if we write it as:
+
+$$ G(x,y) = \log\left(1 + \dfrac{A(x,y)^2}{\gamma + B(x,y)^2}\right)$$
+
+with $A(x,y) = x^{\frac{1}{3}} - y^{\frac{2}{3}}$ and $B(x,y) = \sin \left(x\right)\cdot \cos \left(x\right)$.
+
+We can plot this function using `plotly`:
+
+```{=html}
+<iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/Cost2DOptimPlot-Purple.html" title="Plot of the cost function $G(x,y)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+```
+
+
+Now let us see what happens if we slice this function $G$ along a ray
+
+$$\mathbf{Ray}(x_0) = \{ (x,y)\colon x = x_0\}$$
+
+where $x_0$ is a constant. We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:
+
+```{=html}
+<iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+```
+
+### The Jacobian
+
+We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:
+
+This way we estimate the value $\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)$ at the point $(x_0,y_0)$
+
+I'm actually lazy enough that I didn't want to do the math to find the Jacobian, so I just used `sympy` to do it for me. Here is the code:
+
+```python
+import sympy as sy
+
+x,y,gamma,p,q = sy.symbols('x y gamma p q')
+Y = sy.cos(x)*sy.sin(x)
+A = (x**p - y**q)
+B = gamma + Y*Y
+sG = sy.log(1+A*A/B)
+sdG = sy.Matrix([
+    [
+    sy.simplify(sy.diff(sG,x)),
+    sy.simplify(sy.diff(sG,y))
+    ]
+])
+md(f"$$\\mathbf{Jac}[G](x,y) = {sy.latex(sdG)}$$")
+```
+This gives us the frankly terrifying result:
+
+$$
+\mathbf{Jac}[G](x,y) \coloneqq \begin{bmatrix}
+\frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} & &
+- \frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}
+$$
+
+[^2]: There is a subtelty here, because we can't really just let any $h_i$ to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we'll use the euclidean norm $\lvert \cdot \rvert$), then we get that the limit exists and is unique.)

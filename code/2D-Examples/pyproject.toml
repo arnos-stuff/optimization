@@ -11,6 +11,7 @@ python = ">=3.9,<3.12"
 xarray = {extras = ["io"], version = "^2023.3.0"}
 plotly = "^5.13.1"
 dask = {extras = ["distributed"], version = "^2023.3.1"}
+requests = "^2.28.2"
 
 
 [build-system]

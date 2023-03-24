@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Optimization",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books."
+  },
+  {
+    "objectID": "preface.html",
+    "href": "preface.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "basics/first-definitions.html#first-definitions",
+    "href": "basics/first-definitions.html#first-definitions",
+    "title": "2  Review of Optimization basics",
+    "section": "2.1 First definitions",
+    "text": "2.1 First definitions\n\n2.1.1 Why we need Calculus\nSuppose you have a function f(x) and you want to find the value of x that makes f(x) as large as possible. This is called a maximum.\nOur issue is thus to find various forms of maxima and minima. We denote this problem as follows:\n\n\n\n\n\n\n\n\n\nNumber\nObjective Name\nMathematical expression\nKey elements\n\n\n\n\n(1)\nUnconstrained Maximization\n\\max_x f(x)\nThe only restriction on f is the nature of its admissible inputs \\mathbf{dom}(f)\n\n\n(2)\nFinding the global maximizer\nx^\\star \\gets \\argmax_x f(x)\nThere is generally a more restriction set of assumptions than in (1) to find the precise x^\\star for which f is minimized\n\n\n(3)\nFinding the a maximiser within a constraint set\n\\underset{x\\in\\mathcal{X}}{\\max f(x)}\nIn this case, there is no possibility for x to go outside of a predefined set \\mathcal{X}, this is very useful in real-life applications\n\n\n\nWhen is calculus useful and not useful ? Here’s a first reason it might or might not be useful: the domain \\mathcal{X} of the input variable, or (which is often the same), the domain \\mathbf{dom}(f) or our function.\nA pretty important part of the problem is what we call the domain of the function. This is the set of values that x can take on. For example, if f(x) = x^2, then the domain is the set of real numbers \\mathbb{R}.\nDomains change everything because, for example, if your domain \\mathbf{dom}(X) is discrete, then the image \\mathbf{im}_f(X) - also denoted f(\\mathbf{dom}(X)) - is also discrete, and you just end up with the array-sorting problem, for which efficient algorithms like quicksort exist..\n\n\n\n2.1.2 What is calculus ?\nThe derivative of a function f(x)\\colon \\mathbb{R}\\to\\mathbb{R} is a function f'(x) is just what everyone knows, that is the limit of\nf'(x) = \\lim_{h\\to 0} \\frac{f(x+h) - f(x)}{h}\nWhen you have a function of several variables, say f(x_1, x_2, \\dots, x_n), whose values are still real numbers, then you can still behave as if nothing happened, because if you fix the n-1 variables\n\\bar{x}_{\\scriptscriptstyle-i} \\coloneqq (\\bar{x}_1,\\ldots,\\bar{x}_{\\scriptscriptstyle i-1},x_{\\scriptscriptstyle i+1},\\dots\\bar{x}_n)\nThen the univariate function g(x_i) is still a function of a single variable, and you can still take its derivative:\n g\\colon x \\mapsto f(\\bar{x}_{\\scriptscriptstyle-i}, x) \\coloneqq f(\\bar{x}_1,\\ldots,\\bar{x}_{\\scriptscriptstyle i-1},x_i, x_{\\scriptscriptstyle i+1},\\dots\\bar{x}_n)\nWe have a bunch of fancy notation for this, namely \\partial_i f(\\bar{x}) for short, or \\frac{\\partial f}{\\partial x_i}(\\bar{x}). We also sometimes speak of the directional derivative of f in the direction of \\bar{x}, which is often denoted D_{\\bar{x}}f.\nWhat is not clear though, is how we relate each derivative to the others. How does \\partial_i f(\\bar{x}) relate to \\partial_j f(\\bar{x})?\nThere is a good theorem to explain this ! It is linked to something called the Jacobian matrix and the chain rule. But we’ll get to that later on."
+  },
+  {
+    "objectID": "basics/the-jacobian.html#the-proof",
+    "href": "basics/the-jacobian.html#the-proof",
+    "title": "3  The Jacobian",
+    "section": "3.1 The Proof",
+    "text": "3.1 The Proof\nThe uniqueness is fairly easy to prove, because if there are two matrices M_1 and M_2 such that f(x+h) \\approx f(x) + M_1h and f(x+h) \\approx f(x) + M_2h, then we can subtract the two equations, (M_1 - M_2)h = \\varepsilon_1 (h) + \\varepsilon_2 (h)\ndivide by \\lvert{h}\\rvert to get that the LHS tends to M_1 - M_2 as h\\to 0, and the RHS tends to 0 as h\\to 0, so we get that M_1 - M_2 = 0.\nThe existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix M(x) has coefficients \\left(\\smash{\\alpha_{ij}(x)}\\right)_{i,j}, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):\n\\begin{aligned}\nf(x+h) &= f(x) + M(x)h +\\varepsilon (h) &\\\\\n\\iff f_j(x+h) &= f_j(x) + \\sum_{i=1}^m \\alpha_{ij}(x)h_j + \\varepsilon_j (h) &\\forall j\\in\\{1,\\dots m\\} \\\\\n\\iff f_j(x_i+h_i) &= f_j(x_i) + \\sum_{i=1}^m \\alpha_{ij}(x_i)h_j + \\varepsilon_j (h_i) &\\forall j\\in\\{1,\\dots m\\},\\,\\forall i\\in\\{1,\\dots n\\} \\\\\n\\end{aligned}\nThis last set of equation is just a m\\times n grid of first order approximations for each f_j at each x_i, and we can solve for the \\alpha_{ij} by just taking the limit as h_i\\to 0 for each i2.\nIf you hadn’t guessed before, each of these equations are looking very much like \\varphi(x+h) \\approx \\varphi(x) + \\varphi'(x)h + \\varepsilon(h)\nwe know in 1D, and we can just take the limit as h\\to 0 to get that \\varphi'(x) = \\alpha_{ij}(x).\nWhat this proves is 3 things:\n\nThe Jacobian is a matrix, and it is unique.\nThe Jacobian is a linear operator, and it is continuous.\nThe Jacobian matrix is populated by the partial derivatives of f, that is\n\n \\textbf{Jac}[f](x) = \\left[\\dfrac{\\partial f_j}{\\partial x_i}(x)\\right]_{\\substack{1\\leq i \\leq m\\\\1\\leq j \\leq n}}\n\n\n\n\n\n\nCareful about the dimensions !\n\n\n\nThe jacobian sends points from a n-dimensional space to a m-dimensional space, so the Jacobian matrix is a m\\times n matrix. This is why the partial derivatives are written in the order \\dfrac{\\partial f_j}{\\partial x_i}, because the jth row of the matrix is the partial derivatives of f_j with respect to the x_i’s.\nThis is very counterintuitive to anyone who works with the gradient \\nabla f(x), which is a n-dimensional vector, and is the transpose of the Jacobian matrix."
+  },
+  {
+    "objectID": "basics/the-jacobian.html#a-small-example-using-python",
+    "href": "basics/the-jacobian.html#a-small-example-using-python",
+    "title": "3  The Jacobian",
+    "section": "3.2 A small example using python",
+    "text": "3.2 A small example using python\nLet’s take a look at a small example I made using python’s sympy library. Through graphing increasingly complex 2D functions on an online tool, I found a function that is complex enough for us to have fun, but not too complex that we can’t understand it.\nThe function is:\nG(x,y) = \\log\\left[1+\\left(x^{\\frac{1}{3}} - y^{\\frac{2}{3}}\\right)^2\\left(0.1+\\sin \\left(x\\right)^2\\cdot \\cos \\left(x\\right)^2\\right)^{-1}\\right]\n\nBut I think it’s easier to understand if we write it as:\n G(x,y) = \\log\\left(1 + \\dfrac{A(x,y)^2}{\\gamma + B(x,y)^2}\\right)\nwith A(x,y) = x^{\\frac{1}{3}} - y^{\\frac{2}{3}} and B(x,y) = \\sin \\left(x\\right)\\cdot \\cos \\left(x\\right).\nWe can plot this function using plotly:\n\nNow let us see what happens if we slice this function G along a ray\n\\mathbf{Ray}(x_0) = \\{ (x,y)\\colon x = x_0\\}\nwhere x_0 is a constant. We can see that the function G is a function of y only, and we can plot it as a function of y:\n\n\n3.2.1 The Jacobian\nWe can see that the function G is a function of y only, and we can plot it as a function of y:\nThis way we estimate the value \\displaystyle \\dfrac{\\partial G}{\\partial y}(x_0,y_0) at the point (x_0,y_0)\nI’m actually lazy enough that I didn’t want to do the math to find the Jacobian, so I just used sympy to do it for me. Here is the code:\nimport sympy as sy\n\nx,y,gamma,p,q = sy.symbols('x y gamma p q')\nY = sy.cos(x)*sy.sin(x)\nA = (x**p - y**q)\nB = gamma + Y*Y\nsG = sy.log(1+A*A/B)\nsdG = sy.Matrix([\n    [\n    sy.simplify(sy.diff(sG,x)),\n    sy.simplify(sy.diff(sG,y))\n    ]\n])\nmd(f\"$$\\\\mathbf{Jac}[G](x,y) = {sy.latex(sdG)}$$\")\nThis gives us the frankly terrifying result:\n\n\\mathbf{Jac}[G](x,y) \\coloneqq \\begin{bmatrix}\n\\frac{2 \\left(x^{p} - y^{q}\\right) \\left(p x^{p} \\left(\\gamma - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right) - \\frac{x \\left(x^{p} - y^{q}\\right) \\sin{\\left(4 x \\right)}}{4}\\right)}{x \\left(\\gamma - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right) \\left(\\gamma + \\left(x^{p} - y^{q}\\right)^{2} - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right)} & &\n- \\frac{2 q y^{q - 1} \\left(x^{p} - y^{q}\\right)}{\\gamma + \\left(x^{p} - y^{q}\\right)^{2} - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}}\\end{bmatrix}"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "4  About",
+    "section": "",
+    "text": "5 Hi 👋, I’m Arno!\nHere’s a short introduction about me:"
+  },
+  {
+    "objectID": "about.html#what-i-do",
+    "href": "about.html#what-i-do",
+    "title": "4  About",
+    "section": "5.1 What I do",
+    "text": "5.1 What I do\nI’m currently working as a junior IT & Data Consultant somewhere in the very pretty business hub of La Défense, but I’m also trying to learn a bit more about programming and web development. I’m a self-anointed pythonista 🐍, but I’m trying to learn Julia & Javascript aswell !\nI also work a lot with SQL at my current job, though I’m eyeing on the recent trends like Snowflake and BigQuery 👀.\nHere’s a picture of my workplace (and some others I took in the area):"
+  },
+  {
+    "objectID": "about.html#what-im-working-on",
+    "href": "about.html#what-im-working-on",
+    "title": "4  About",
+    "section": "5.2 What I’m working on",
+    "text": "5.2 What I’m working on\nI’m currently working on a few projects, but I’m not sure I’ll be able to finish them anytime soon. I’m also trying to learn a bit more about web development, so I’m trying to make a few websites. Here’s a list of the projects I’m currently working on:\n\n\n\n\n\n\n\n\nNumber\nLanguage\nDescription\n\n\n\n\n1\n🐍\nA few unpolished python packages\n\n\n2\n🐍\nA python data API for eurostat related data\n\n\n3\nJS\nA Vue.js website to slowly learn Vue.js\n\n\n4\n🤓\nA small blog about math related topics when I feel like talking theory\n\n\n\nThat’s a lot ! But I also have some personnal matters …"
+  },
+  {
+    "objectID": "about.html#im-autistic-queer",
+    "href": "about.html#im-autistic-queer",
+    "title": "4  About",
+    "section": "6.1 I’m Autistic & Queer",
+    "text": "6.1 I’m Autistic & Queer\nI’m a proud Aspie / Neurodivergent person, I received an official diagnosis from Hôpital Saint-Anne in Paris, France a year or so ago. They’re considered a bit competent on the topic so I trust them.\n\n\n\nI’m also most probably trans 🏳️‍⚧️, but I’m not sure 100% yet. I’m currently trying to figure out how to go about it, the process is a bit complicated in France, but it’s a work in progress.\nI wrote a short piece about the relationship between autism and gender diversity a while back."
+  },
+  {
+    "objectID": "about.html#i-like-games",
+    "href": "about.html#i-like-games",
+    "title": "4  About",
+    "section": "6.2 I like games",
+    "text": "6.2 I like games\nI’m also a big video game player, so maybe we can play together sometime ! I’m currently a bit busy with work, but I’d love to share some factoids about my favorite games."
+  },
+  {
+    "objectID": "about.html#i-like-music",
+    "href": "about.html#i-like-music",
+    "title": "4  About",
+    "section": "6.3 I like music",
+    "text": "6.3 I like music\nI’m a HUGE music nerd, just to name a few of my favorite genres:\n\n\n\n\n\n\n\nGenre\nDescription\n\n\n\n\n70’s rock\nespecially progressive rock and Cantebury scene / Krautrock bands\n\n\nBebop and Hard-Bop\nThe golden age of Bebop and Hard-Bop, especially the work of Miles Davis, who helped me bridge the gap between Jazz and Rock (I’m a huge fan of his work with John McLaughlin)\n\n\nIDM\nEspecially the work of μ-Ziq, Floating Points, Squarepusher, and Boards of Canada\n\n\nHip-Hop\nThe classics, especially the work of MF Doom, Madlib, and J Dilla\n\n\nHyperpop\nI’m a huge fan of the work of Charli XCX !\n\n\nK-pop\nI’ve recently discovered I like K-pop thanks to League of Legends’ KDA group, and I’m slowly getting into the genre ..\n\n\nMetal\nI love Gojira obviously, but a lot of artists here and there, the progressive Metal scene is pretty dope aswell 🤩\n\n\n\n… and many more 🎵"
+  },
+  {
+    "objectID": "about.html#i-like-math",
+    "href": "about.html#i-like-math",
+    "title": "4  About",
+    "section": "6.4 I like math",
+    "text": "6.4 I like math\nI’m also a big math nerd, I’m currently trying to learn a bit more about statistics and probability theory, as I’m a recovering tentative PhD grad (I worked on Causal Inference back in Shanghai).\nI’d love learning more, but I’m busy and already have a lot to do !"
+  }
+]

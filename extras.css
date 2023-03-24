@@ -1,0 +1,44 @@
+#quarto-sidebar {
+    width: 80%;
+    transform: translateX(-5%);
+}
+
+#quarto-margin-sidebar {
+    width: 80%;
+    transform: translateX(10%);
+}
+
+iframe {
+    overflow: hidden;
+    overscroll-behavior: contain;
+    transform: translateX(-5%);
+}
+
+* > code, * > pre, * > pre.code {
+    overflow: hidden;
+    overscroll-behavior: contain;
+    background-color: #3805672d !important;
+    color: #f6aff2;
+    -webkit-text-stroke-color: #593bb5b2;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: #e730f8e2;
+    border-width: 1px;
+}
+
+* > code span.ss {
+    color: #a036dae8;
+    -webkit-text-stroke-color: #593bb5b2;
+}
+
+* > code span.op {
+    color: #8340ff;
+}
+
+* > code span.st {
+    color: #7fffe1;
+}
+
+* > code span.dt {
+    color: #fff27f;
+}
