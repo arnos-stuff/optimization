@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -95,11 +114,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta name="quarto:offset" content="../">
 <link href="../basics/the-jacobian.html" rel="next">
 <link href="../preface.html" rel="prev">
+<link href="../static/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
@@ -151,6 +172,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../theme/bootswatch/dist/quartz-custom/bootstrap.css">
 <link rel="stylesheet" href="../extras.css">
 <link rel="stylesheet" href="../theme.scss">
+<meta property="og:title" content="Optimization - 2&nbsp; Review of Optimization basics">
+<meta property="og:site-name" content="Optimization">
+<meta name="twitter:title" content="A small Optimization Book">
+<meta name="twitter:description" content="Optimization basics">
+<meta name="twitter:image" content="https://optim.arnov.dev/static\Book-Horizontal-adjusted.png">
+<meta name="twitter:creator" content="@arno_shae">
+<meta name="twitter:site" content="https://optim.arnov.dev">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="1788">
+<meta name="twitter:image-width" content="1004">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -331,10 +362,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-arno_shae" class="csl-entry" role="doc-biblioentry">
+V, Arno. 2023. <em>Personal Website</em>. <a href="https://cv.arnov.dev">https://cv.arnov.dev</a>.
+</div>
+</div>
 </section>
 </section>
 
 </main> <!-- /main -->
+<span style="display: inline-block; width:max-content; align-items: center ; height:auto"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png">
+</a>
+<br>
+Licensed under
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+CC A-NC-SA 4.0 International License
+</a></span>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -531,78 +575,78 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">include-in-header:</span><span class="co"> |</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\dom{\mathop{\mathrm{dom}}\limits}</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\im{\mathop{\mathrm{im}}\limits}</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\supp{\mathop{\mathrm{supp}}\limits}</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\id{\mathop{\mathrm{id}}\limits}</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\tr{\mathop{\mathrm{tr}}\limits}</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\diag{\mathop{\mathrm{diag}}\limits}</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\sign{\mathop{\mathrm{sign}}\limits}</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\sgn{\mathop{\mathrm{sgn}}\limits}</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\dist{\mathop{\mathrm{dist}}\limits}</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\argmin{\mathop{\mathrm{argmin}}\limits}</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\argmax{\mathop{\mathrm{argmax}}\limits}</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\minimax[2]{\mathop{\mathrm{min}_{#1}\mathrm{max}_{#2}}\limits}</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    \newcommand\maximin[2]{\mathop{\mathrm{max}_{#1}\mathrm{min}_{#2}}\limits}</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu"># Review of Optimization basics {.Review}</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## First definitions {.FirstDefs}</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why we need Calculus</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>Suppose you have a function $f(x)$ and you want to find the value of $x$ that makes $f(x)$ as large as possible. This is called a *maximum*.  </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Our issue is thus to find various forms of maxima and minima. We denote this problem as follows:</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>| Number | Objective Name | Mathematical expression | Key elements |</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>| --- | --- | ----- | ------ |</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>| $(1)$ | Unconstrained Maximization | $\max_x f(x)$ | The only restriction on $f$ is the nature of its admissible inputs $\mathbf{dom}(f)$</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>| $(2)$ | Finding the global maximizer | $x^\star \gets \argmax_x f(x)$ | There is generally a more restriction set of assumptions than in $(1)$ to find the precise $x^\star$ for which $f$ is minimized |</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>| $(3)$ | Finding the a maximiser within a constraint set | $\underset{x\in\mathcal{X}}{\max f(x)}$ | In this case, there is no possibility for $x$ to go outside of a predefined set $\mathcal{X}$, this is very useful in real-life applications |</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>When is calculus useful and not useful ? Here's a first reason it might or might not be useful: the __domain__ $\mathcal{X}$ of the input variable, or (which is often the same), the domain $\mathbf{dom}(f)$ or our function.</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>A pretty important part of the problem is what we call the *domain* of the function. This is the set of values that $x$ can take on. For example, if $f(x) = x^2$, then the domain is the set of real numbers $\mathbb{R}$.  </span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>Domains change everything because, for example, if your domain $\mathbf{dom}(X)$ is discrete, then the image $\mathbf{im}_f(X)$ $-$ also denoted $f(\mathbf{dom}(X))$ $-$ is also discrete, and you just end up with the array-sorting problem, <span class="co">[</span><span class="ot">for which efficient algorithms like quicksort exist.</span><span class="co">](https://en.wikipedia.org/wiki/Quicksort)</span>.</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;iframe scrolling="no" width="80%" height="360" style="transform: translateX(5%)" center="true" autoplay="true" src="https://media.tenor.com/HB_pdTic1egAAAAd/beat-flatten.gif" title="Quicksort demo" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is calculus ?</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>**The derivative** of a function $f(x)\colon \mathbb{R}\to\mathbb{R}$ is a function $f'(x)$ is just what everyone knows, that is the limit of </span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>$$f'(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}$$</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>When you have a function of several variables, say $f(x_1, x_2, \dots, x_n)$, whose values are still real numbers, then you can still behave as if nothing happened, because if you fix the $n-1$ variables</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>$$\bar{x}_{\scriptscriptstyle-i} \coloneqq (\bar{x}_1,\ldots,\bar{x}_{\scriptscriptstyle i-1},x_{\scriptscriptstyle i+1},\dots\bar{x}_n)$$</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>Then the **univariate function** $g(x_i)$ is still a function of a single variable, and you can still take its derivative:</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>$$ g\colon x \mapsto f(\bar{x}_{\scriptscriptstyle-i}, x) \coloneqq f(\bar{x}_1,\ldots,\bar{x}_{\scriptscriptstyle i-1},x_i, x_{\scriptscriptstyle i+1},\dots\bar{x}_n)$$</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>We have a bunch of fancy notation for this, namely $\partial_i f(\bar{x})$ for short, or $\frac{\partial f}{\partial x_i}(\bar{x})$.</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>We also sometimes speak of the **directional derivative** of $f$ in the direction of $\bar{x}$, which is often denoted $D_{\bar{x}}f$.</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>What is not clear though, is how we relate each derivative to the others. How does $\partial_i f(\bar{x})$ relate to $\partial_j f(\bar{x})$?</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>There is a good theorem to explain this ! It is linked to something called the __Jacobian matrix__ and the __chain rule__. But we'll get to that later on.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="an">include-in-header:</span><span class="co"> |</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    \newcommand\dom{\mathop{\mathrm{dom}}\limits}</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    \newcommand\im{\mathop{\mathrm{im}}\limits}</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    \newcommand\supp{\mathop{\mathrm{supp}}\limits}</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">    \newcommand\id{\mathop{\mathrm{id}}\limits}</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">    \newcommand\tr{\mathop{\mathrm{tr}}\limits}</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">    \newcommand\diag{\mathop{\mathrm{diag}}\limits}</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">    \newcommand\sign{\mathop{\mathrm{sign}}\limits}</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">    \newcommand\sgn{\mathop{\mathrm{sgn}}\limits}</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">    \newcommand\dist{\mathop{\mathrm{dist}}\limits}</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">    \newcommand\argmin{\mathop{\mathrm{argmin}}\limits}</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">    \newcommand\argmax{\mathop{\mathrm{argmax}}\limits}</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">    \newcommand\minimax[2]{\mathop{\mathrm{min}_{#1}\mathrm{max}_{#2}}\limits}</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">    \newcommand\maximin[2]{\mathop{\mathrm{max}_{#1}\mathrm{min}_{#2}}\limits}</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">---</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="fu"># Review of Optimization basics {.Review}</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="fu">## First definitions {.FirstDefs}</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="fu">### Why we need Calculus</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a>Suppose you have a function $f(x)$ and you want to find the value of $x$ that makes $f(x)$ as large as possible. This is called a *maximum*.  </span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a>Our issue is thus to find various forms of maxima and minima. We denote this problem as follows:</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a>| Number | Objective Name | Mathematical expression | Key elements |</span>
+<span id="cb1-30"><a href="#cb1-30"></a>| --- | --- | ----- | ------ |</span>
+<span id="cb1-31"><a href="#cb1-31"></a>| $(1)$ | Unconstrained Maximization | $\max_x f(x)$ | The only restriction on $f$ is the nature of its admissible inputs $\mathbf{dom}(f)$</span>
+<span id="cb1-32"><a href="#cb1-32"></a>| $(2)$ | Finding the global maximizer | $x^\star \gets \argmax_x f(x)$ | There is generally a more restriction set of assumptions than in $(1)$ to find the precise $x^\star$ for which $f$ is minimized |</span>
+<span id="cb1-33"><a href="#cb1-33"></a>| $(3)$ | Finding the a maximiser within a constraint set | $\underset{x\in\mathcal{X}}{\max f(x)}$ | In this case, there is no possibility for $x$ to go outside of a predefined set $\mathcal{X}$, this is very useful in real-life applications |</span>
+<span id="cb1-34"><a href="#cb1-34"></a></span>
+<span id="cb1-35"><a href="#cb1-35"></a>When is calculus useful and not useful ? Here's a first reason it might or might not be useful: the __domain__ $\mathcal{X}$ of the input variable, or (which is often the same), the domain $\mathbf{dom}(f)$ or our function.</span>
+<span id="cb1-36"><a href="#cb1-36"></a></span>
+<span id="cb1-37"><a href="#cb1-37"></a></span>
+<span id="cb1-38"><a href="#cb1-38"></a>A pretty important part of the problem is what we call the *domain* of the function. This is the set of values that $x$ can take on. For example, if $f(x) = x^2$, then the domain is the set of real numbers $\mathbb{R}$.  </span>
+<span id="cb1-39"><a href="#cb1-39"></a></span>
+<span id="cb1-40"><a href="#cb1-40"></a></span>
+<span id="cb1-41"><a href="#cb1-41"></a></span>
+<span id="cb1-42"><a href="#cb1-42"></a>Domains change everything because, for example, if your domain $\mathbf{dom}(X)$ is discrete, then the image $\mathbf{im}_f(X)$ $-$ also denoted $f(\mathbf{dom}(X))$ $-$ is also discrete, and you just end up with the array-sorting problem, <span class="co">[</span><span class="ot">for which efficient algorithms like quicksort exist.</span><span class="co">](https://en.wikipedia.org/wiki/Quicksort)</span>.</span>
+<span id="cb1-43"><a href="#cb1-43"></a></span>
+<span id="cb1-44"><a href="#cb1-44"></a><span class="in">```{=html}</span></span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="in">&lt;iframe scrolling="no" width="80%" height="360" style="transform: translateX(5%)" center="true" autoplay="true" src="https://media.tenor.com/HB_pdTic1egAAAAd/beat-flatten.gif" title="Quicksort demo" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46"></a><span class="in">```</span></span>
+<span id="cb1-47"><a href="#cb1-47"></a></span>
+<span id="cb1-48"><a href="#cb1-48"></a></span>
+<span id="cb1-49"><a href="#cb1-49"></a><span class="fu">### What is calculus ?</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a></span>
+<span id="cb1-51"><a href="#cb1-51"></a>**The derivative** of a function $f(x)\colon \mathbb{R}\to\mathbb{R}$ is a function $f'(x)$ is just what everyone knows, that is the limit of </span>
+<span id="cb1-52"><a href="#cb1-52"></a></span>
+<span id="cb1-53"><a href="#cb1-53"></a>$$f'(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}$$</span>
+<span id="cb1-54"><a href="#cb1-54"></a></span>
+<span id="cb1-55"><a href="#cb1-55"></a></span>
+<span id="cb1-56"><a href="#cb1-56"></a></span>
+<span id="cb1-57"><a href="#cb1-57"></a>When you have a function of several variables, say $f(x_1, x_2, \dots, x_n)$, whose values are still real numbers, then you can still behave as if nothing happened, because if you fix the $n-1$ variables</span>
+<span id="cb1-58"><a href="#cb1-58"></a></span>
+<span id="cb1-59"><a href="#cb1-59"></a>$$\bar{x}_{\scriptscriptstyle-i} \coloneqq (\bar{x}_1,\ldots,\bar{x}_{\scriptscriptstyle i-1},x_{\scriptscriptstyle i+1},\dots\bar{x}_n)$$</span>
+<span id="cb1-60"><a href="#cb1-60"></a></span>
+<span id="cb1-61"><a href="#cb1-61"></a>Then the **univariate function** $g(x_i)$ is still a function of a single variable, and you can still take its derivative:</span>
+<span id="cb1-62"><a href="#cb1-62"></a></span>
+<span id="cb1-63"><a href="#cb1-63"></a>$$ g\colon x \mapsto f(\bar{x}_{\scriptscriptstyle-i}, x) \coloneqq f(\bar{x}_1,\ldots,\bar{x}_{\scriptscriptstyle i-1},x_i, x_{\scriptscriptstyle i+1},\dots\bar{x}_n)$$</span>
+<span id="cb1-64"><a href="#cb1-64"></a></span>
+<span id="cb1-65"><a href="#cb1-65"></a></span>
+<span id="cb1-66"><a href="#cb1-66"></a></span>
+<span id="cb1-67"><a href="#cb1-67"></a>We have a bunch of fancy notation for this, namely $\partial_i f(\bar{x})$ for short, or $\frac{\partial f}{\partial x_i}(\bar{x})$.</span>
+<span id="cb1-68"><a href="#cb1-68"></a>We also sometimes speak of the **directional derivative** of $f$ in the direction of $\bar{x}$, which is often denoted $D_{\bar{x}}f$.</span>
+<span id="cb1-69"><a href="#cb1-69"></a></span>
+<span id="cb1-70"><a href="#cb1-70"></a>What is not clear though, is how we relate each derivative to the others. How does $\partial_i f(\bar{x})$ relate to $\partial_j f(\bar{x})$?</span>
+<span id="cb1-71"><a href="#cb1-71"></a></span>
+<span id="cb1-72"><a href="#cb1-72"></a>There is a good theorem to explain this ! It is linked to something called the __Jacobian matrix__ and the __chain rule__. But we'll get to that later on.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

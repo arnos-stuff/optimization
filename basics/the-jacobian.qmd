@@ -1,6 +1,6 @@
 
 
-# The Jacobian {.Jacobian}
+# The Jacobian {#sec-jacobian}
 
 The theorem that defines and cements the derivatives is the following:
 
@@ -82,7 +82,7 @@ where $x_0$ is a constant. We can see that the function $G$ is a function of $y$
 <iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
 ```
 
-### The Jacobian
+### Computing the Jacobian
 
 We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:
 
@@ -113,5 +113,11 @@ $$
 \frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} & &
 - \frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}
 $$
+
+### What does this mean ?
+
+As we will see later, the Jacobian $\mathbf{Jac}[G]$ is a very important tool in optimization. The gradient is a vector that points in the direction of the __steepest ascent__ of the function $G$ at the point $(x,y)$, & its norm is the slope of the function $G$ at the point $(x,y)$.
+
+So as a last small exercise, let's compute the countours of $(x,y)\mapsto \lvert \mathbf{Jac}[G](x,y) \rvert$ and see what it looks like.
 
 [^2]: There is a subtelty here, because we can't really just let any $h_i$ to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we'll use the euclidean norm $\lvert \cdot \rvert$), then we get that the limit exists and is unique.)

@@ -1,5 +1,20 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+Hi there 👋 I'm [Arno](#sec-about-me), a french data worker. I'm a data engineer, data scientist, data analyst, data architect, data whatever you want. I'm a data enthusiast. In my day job though, they call me "Data Consultant", which means I get to do pretty much everything and anything, so long as the client is happy !
 
-See @knuth84 for additional discussion of literate programming.
+My education was a Master's Degree from a french engineering school that has good local reputation ([INSA Lyon](https://www.insa-lyon.fr/)), and academic exchanges, one in South-Korea at [KAIST](https://www.kaist.ac.kr/eng/index.do) and one in Shanghai at [Shanghai Jiao Tong University](https://www.sjtu.edu.cn/).
+
+Both exchanges helped me dive a bit more into the applied math & machine learning & statistics side of things, which I had already been interested in. I also got to learn a bit of Korean and Mandarin, which was a nice bonus.
+
+Now looking back after 2 years of working in the industry, I feel the need to share my experience and knowledge with the world. I've been working on a few projects, and one of these is this online book that explains what I think is basic but crucial knowledge 😊
+
+# About this book
+
+## The cover art
+
+This hand-made cover art (using [Canva](https://www.canva.com/)) is a tribute to @Cover2006 in which there is a very interesting depiction of KL-Divergence projection onto a simplex to explain Sanov's theorem and properties of typical distributions.
+
+
+```{=html}
+<img src="static/Elements-InfoTheory-whitebg.png" alt="InfoTheoryCover" style="opacity:0.72; border-radius: 5%" width="100%"/>
+```

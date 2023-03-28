@@ -12,6 +12,9 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+
+ 
 :root {
   --bs-blue: #528fb3;
   --bs-indigo: rgba(122, 222, 255, 0.8823529412);
@@ -57,7 +60,7 @@
   --bs-body-color-rgb: 238, 192, 255;
   --bs-body-bg-rgb: 138, 91, 232;
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --bs-font-monospace: Fira Code, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(238, 192, 255, 0.15), rgba(238, 192, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
@@ -10881,24 +10884,6 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}
-@font-face {
-  font-family: "Fira Code";
-  src: url(https://cdn.jsdelivr.net/gh/arnos-stuff/fonts@latest/FiraCode/Fira-Code-Retina-Nerd-Font-Complete-Mono-Windows-Compatible.ttf) format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Fira Code";
-  src: url(https://cdn.jsdelivr.net/gh/arnos-stuff/fonts@latest/FiraCode/Fira-Code-Regular-Nerd-Font-Complete-Windows-Compatible.ttf) format("truetype");
-  font-weight: 600;
-  font-style: bold;
-}
-@font-face {
-  font-family: "Fira Code";
-  src: url(https://cdn.jsdelivr.net/gh/arnos-stuff/fonts@latest/FiraCode/Fira-Code-Light-Nerd-Font-Complete-Windows-Compatible.ttf) format("truetype");
-  font-weight: 300;
-  font-style: light;
 }
 :root {
   color-scheme: dark;

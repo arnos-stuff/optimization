@@ -114,11 +114,13 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./basics/first-definitions.html" rel="next">
 <link href="./index.html" rel="prev">
+<link href="./static/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
@@ -154,6 +156,17 @@ div.csl-indent {
 <link rel="stylesheet" href="theme/bootswatch/dist/quartz-custom/bootstrap.css">
 <link rel="stylesheet" href="extras.css">
 <link rel="stylesheet" href="theme.scss">
+<meta property="og:title" content="Optimization - 1&nbsp; Introduction">
+<meta property="og:description" content="Hi there 👋 I’m Arno, a french data worker. I’m a data engineer, data scientist, data analyst, data architect, data whatever you want. I’m a data enthusiast.">
+<meta property="og:site-name" content="Optimization">
+<meta name="twitter:title" content="A small Optimization Book">
+<meta name="twitter:description" content="Optimization basics">
+<meta name="twitter:image" content="https://optim.arnov.dev/static\Book-Horizontal-adjusted.png">
+<meta name="twitter:creator" content="@arno_shae">
+<meta name="twitter:site" content="https://optim.arnov.dev">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="1788">
+<meta name="twitter:image-width" content="1004">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -240,7 +253,16 @@ div.csl-indent {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#about-this-book" id="toc-about-this-book" class="nav-link active" data-scroll-target="#about-this-book"><span class="toc-section-number">2</span>  About this book</a>
+  <ul class="collapse">
+  <li><a href="#the-cover-art" id="toc-the-cover-art" class="nav-link" data-scroll-target="#the-cover-art"><span class="toc-section-number">2.1</span>  The cover art</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -262,19 +284,40 @@ div.csl-indent {
 
 </header>
 
-<p>This is a book created from markdown and executable code.</p>
-<p>See <span class="citation" data-cites="knuth84">Knuth (<a href="#ref-knuth84" role="doc-biblioref">1984</a>)</span> for additional discussion of literate programming.</p>
+<p>Hi there 👋 I’m <a href="about.html#sec-about-me">Arno</a>, a french data worker. I’m a data engineer, data scientist, data analyst, data architect, data whatever you want. I’m a data enthusiast. In my day job though, they call me “Data Consultant”, which means I get to do pretty much everything and anything, so long as the client is happy !</p>
+<p>My education was a Master’s Degree from a french engineering school that has good local reputation (<a href="https://www.insa-lyon.fr/">INSA Lyon</a>), and academic exchanges, one in South-Korea at <a href="https://www.kaist.ac.kr/eng/index.do">KAIST</a> and one in Shanghai at <a href="https://www.sjtu.edu.cn/">Shanghai Jiao Tong University</a>.</p>
+<p>Both exchanges helped me dive a bit more into the applied math &amp; machine learning &amp; statistics side of things, which I had already been interested in. I also got to learn a bit of Korean and Mandarin, which was a nice bonus.</p>
+<p>Now looking back after 2 years of working in the industry, I feel the need to share my experience and knowledge with the world. I’ve been working on a few projects, and one of these is this online book that explains what I think is basic but crucial knowledge 😊</p>
+<section id="about-this-book" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> About this book</h1>
+<section id="the-cover-art" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-cover-art"><span class="header-section-number">2.1</span> The cover art</h2>
+<p>This hand-made cover art (using <a href="https://www.canva.com/">Canva</a>) is a tribute to <span class="citation" data-cites="Cover2006">Cover and Thomas (<a href="#ref-Cover2006" role="doc-biblioref">2006</a>)</span> in which there is a very interesting depiction of KL-Divergence projection onto a simplex to explain Sanov’s theorem and properties of typical distributions.</p>
+<img src="static/Elements-InfoTheory-whitebg.png" alt="InfoTheoryCover" style="opacity:0.72; border-radius: 5%" width="100%">
 
 
 <!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-knuth84" class="csl-entry" role="doc-biblioentry">
-Knuth, Donald E. 1984. <span>“Literate Programming.”</span> <em>Comput. J.</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
+<div id="ref-Cover2006" class="csl-entry" role="doc-biblioentry">
+Cover, Thomas M., and Joy A. Thomas. 2006. <em>Elements of Information Theory 2nd Edition (Wiley Series in Telecommunications and Signal Processing)</em>. Hardcover; Wiley-Interscience.
+</div>
+<div id="ref-arno_shae" class="csl-entry" role="doc-biblioentry">
+V, Arno. 2023. <em>Personal Website</em>. <a href="https://cv.arnov.dev">https://cv.arnov.dev</a>.
 </div>
 </div>
+</section>
+</section>
 
 </main> <!-- /main -->
+<span style="display: inline-block; width:max-content; align-items: center ; height:auto"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png">
+</a>
+<br>
+Licensed under
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+CC A-NC-SA 4.0 International License
+</a></span>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -471,11 +514,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This is a book created from markdown and executable code.</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>See @knuth84 for additional discussion of literate programming.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu"># Introduction</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>Hi there 👋 I'm <span class="co">[</span><span class="ot">Arno</span><span class="co">](#sec-about-me)</span>, a french data worker. I'm a data engineer, data scientist, data analyst, data architect, data whatever you want. I'm a data enthusiast. In my day job though, they call me "Data Consultant", which means I get to do pretty much everything and anything, so long as the client is happy !</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>My education was a Master's Degree from a french engineering school that has good local reputation (<span class="co">[</span><span class="ot">INSA Lyon</span><span class="co">](https://www.insa-lyon.fr/)</span>), and academic exchanges, one in South-Korea at <span class="co">[</span><span class="ot">KAIST</span><span class="co">](https://www.kaist.ac.kr/eng/index.do)</span> and one in Shanghai at <span class="co">[</span><span class="ot">Shanghai Jiao Tong University</span><span class="co">](https://www.sjtu.edu.cn/)</span>.</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>Both exchanges helped me dive a bit more into the applied math &amp; machine learning &amp; statistics side of things, which I had already been interested in. I also got to learn a bit of Korean and Mandarin, which was a nice bonus.</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>Now looking back after 2 years of working in the industry, I feel the need to share my experience and knowledge with the world. I've been working on a few projects, and one of these is this online book that explains what I think is basic but crucial knowledge 😊</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu"># About this book</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">## The cover art</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a>This hand-made cover art (using <span class="co">[</span><span class="ot">Canva</span><span class="co">](https://www.canva.com/)</span>) is a tribute to @Cover2006 in which there is a very interesting depiction of KL-Divergence projection onto a simplex to explain Sanov's theorem and properties of typical distributions.</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="in">```{=html}</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="in">&lt;img src="static/Elements-InfoTheory-whitebg.png" alt="InfoTheoryCover" style="opacity:0.72; border-radius: 5%" width="100%"/&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

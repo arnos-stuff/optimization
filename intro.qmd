@@ -1,5 +1,7 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+This is a book created from markdown and executable code. It is a work in progress.
 
-See @knuth84 for additional discussion of literate programming.
+The goal is to create a book that is both a reference and a tutorial.
+
+The book is written in markdown and the code is written in Python. The code is executable and the output will be made available through a github repository when it is not directly visible in the book.

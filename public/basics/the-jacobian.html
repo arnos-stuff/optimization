@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -95,11 +114,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta name="quarto:offset" content="../">
 <link href="../about.html" rel="next">
 <link href="../basics/first-definitions.html" rel="prev">
+<link href="../static/favicon.ico" rel="icon">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
@@ -151,6 +172,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../theme/bootswatch/dist/quartz-custom/bootstrap.css">
 <link rel="stylesheet" href="../extras.css">
 <link rel="stylesheet" href="../theme.scss">
+<meta property="og:title" content="Optimization - 3&nbsp; The Jacobian">
+<meta property="og:description" content="The theorem that defines and cements the derivatives is the following:">
+<meta property="og:site-name" content="Optimization">
+<meta name="twitter:title" content="A small Optimization Book">
+<meta name="twitter:description" content="Optimization basics">
+<meta name="twitter:image" content="https://optim.arnov.dev/static\Book-Horizontal-adjusted.png">
+<meta name="twitter:creator" content="@arno_shae">
+<meta name="twitter:site" content="https://optim.arnov.dev">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="1788">
+<meta name="twitter:image-width" content="1004">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -244,7 +276,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#the-proof" id="toc-the-proof" class="nav-link active" data-scroll-target="#the-proof"><span class="toc-section-number">3.1</span>  The Proof</a></li>
   <li><a href="#a-small-example-using-python" id="toc-a-small-example-using-python" class="nav-link" data-scroll-target="#a-small-example-using-python"><span class="toc-section-number">3.2</span>  A small example using python</a>
   <ul class="collapse">
-  <li><a href="#the-jacobian" id="toc-the-jacobian" class="nav-link" data-scroll-target="#the-jacobian"><span class="toc-section-number">3.2.1</span>  The Jacobian</a></li>
+  <li><a href="#computing-the-jacobian" id="toc-computing-the-jacobian" class="nav-link" data-scroll-target="#computing-the-jacobian"><span class="toc-section-number">3.2.1</span>  Computing the Jacobian</a></li>
+  <li><a href="#what-does-this-mean" id="toc-what-does-this-mean" class="nav-link" data-scroll-target="#what-does-this-mean"><span class="toc-section-number">3.2.2</span>  What does this mean ?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -254,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-jacobian" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -323,35 +356,45 @@ Careful about the dimensions !
 <p><span class="math display">\mathbf{Ray}(x_0) = \{ (x,y)\colon x = x_0\}</span></p>
 <p>where <span class="math inline">x_0</span> is a constant. We can see that the function <span class="math inline">G</span> is a function of <span class="math inline">y</span> only, and we can plot it as a function of <span class="math inline">y</span>:</p>
 <iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
-<section id="the-jacobian" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="the-jacobian"><span class="header-section-number">3.2.1</span> The Jacobian</h3>
+<section id="computing-the-jacobian" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="computing-the-jacobian"><span class="header-section-number">3.2.1</span> Computing the Jacobian</h3>
 <p>We can see that the function <span class="math inline">G</span> is a function of <span class="math inline">y</span> only, and we can plot it as a function of <span class="math inline">y</span>:</p>
 <p>This way we estimate the value <span class="math inline">\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)</span> at the point <span class="math inline">(x_0,y_0)</span></p>
 <p>I’m actually lazy enough that I didn’t want to do the math to find the Jacobian, so I just used <code>sympy</code> to do it for me. Here is the code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sdG <span class="op">=</span> sy.Matrix([</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,x)),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,y))</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
+<span id="cb1-7"><a href="#cb1-7"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>sdG <span class="op">=</span> sy.Matrix([</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    [</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    sy.simplify(sy.diff(sG,x)),</span>
+<span id="cb1-11"><a href="#cb1-11"></a>    sy.simplify(sy.diff(sG,y))</span>
+<span id="cb1-12"><a href="#cb1-12"></a>    ]</span>
+<span id="cb1-13"><a href="#cb1-13"></a>])</span>
+<span id="cb1-14"><a href="#cb1-14"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This gives us the frankly terrifying result:</p>
 <p><span class="math display">
 \mathbf{Jac}[G](x,y) \coloneqq \begin{bmatrix}
 \frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} &amp; &amp;
 - \frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}
 </span></p>
+</section>
+<section id="what-does-this-mean" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="what-does-this-mean"><span class="header-section-number">3.2.2</span> What does this mean ?</h3>
+<p>As we will see later, the Jacobian <span class="math inline">\mathbf{Jac}[G]</span> is a very important tool in optimization. The gradient is a vector that points in the direction of the <strong>steepest ascent</strong> of the function <span class="math inline">G</span> at the point <span class="math inline">(x,y)</span>, &amp; its norm is the slope of the function <span class="math inline">G</span> at the point <span class="math inline">(x,y)</span>.</p>
+<p>So as a last small exercise, let’s compute the countours of <span class="math inline">(x,y)\mapsto \lvert \mathbf{Jac}[G](x,y) \rvert</span> and see what it looks like.</p>
 
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-arno_shae" class="csl-entry" role="doc-biblioentry">
+V, Arno. 2023. <em>Personal Website</em>. <a href="https://cv.arnov.dev">https://cv.arnov.dev</a>.
+</div>
+</div>
 </section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
@@ -363,6 +406,14 @@ Careful about the dimensions !
 </section>
 
 </main> <!-- /main -->
+<span style="display: inline-block; width:max-content; align-items: center ; height:auto"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png">
+</a>
+<br>
+Licensed under
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+CC A-NC-SA 4.0 International License
+</a></span>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -559,121 +610,127 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Jacobian {.Jacobian}</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>The theorem that defines and cements the derivatives is the following:</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Let $f\colon \mathbb{R}^n \to \mathbb{R}^m$ be a function. Then, at each point $x$ where $f$ is differentiable, there is a **unique matrix** $M(x)$ so that:</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; $$ f(x+h) \approx f(x) + M(x)h +\varepsilon (h)$$</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; where $\varepsilon (h)$ is a small vector in $\mathbb{R}^m$ that goes to $0$ faster than $h$ does</span><span class="ot">[^1]</span><span class="at">.</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ot">[^1]: </span>in the sense of a norm: $\lvert x\rvert$, $\varepsilon(h)/\lvert x\rvert\to 0$ as $\lvert x\rvert\to 0$.</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Proof</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>The uniqueness is fairly easy to prove, because if there are two matrices $M_1$ and $M_2$ such that $f(x+h) \approx f(x) + M_1h$ and $f(x+h) \approx f(x) + M_2h$, then we can subtract the two equations,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>$$(M_1 - M_2)h = \varepsilon_1 (h) + \varepsilon_2 (h)$$</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>divide by $\lvert{h}\rvert$ to get that the LHS tends to $M_1 - M_2$ as $h\to 0$, and the RHS tends to $0$ as $h\to 0$, so we get that $M_1 - M_2 = 0$.</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>The existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix $M(x)$ has coefficients $\left(\smash{\alpha_{ij}(x)}\right)_{i,j}$, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>f(x+h) &amp;= f(x) + M(x)h +\varepsilon (h) &amp;<span class="sc">\\</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>\iff f_j(x+h) &amp;= f_j(x) + \sum_{i=1}^m \alpha_{ij}(x)h_j + \varepsilon_j (h) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span> <span class="sc">\\</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>\iff f_j(x_i+h_i) &amp;= f_j(x_i) + \sum_{i=1}^m \alpha_{ij}(x_i)h_j + \varepsilon_j (h_i) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span>,\,\forall i\in<span class="sc">\{</span>1,\dots n<span class="sc">\}</span> <span class="sc">\\</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>This last set of equation is just a $m\times n$ grid of first order approximations for each $f_j$ at each $x_i$, and we can solve for the $\alpha_{ij}$ by just taking the limit as $h_i\to 0$ for each $i$<span class="ot">[^2]</span>. </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>If you hadn't guessed before, each of these equations are looking very much like </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>$$\varphi(x+h) \approx \varphi(x) + \varphi'(x)h + \varepsilon(h)$$</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a> we know in 1D, and we can just take the limit as $h\to 0$ to get that $\varphi'(x) = \alpha_{ij}(x)$.  </span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>What this proves is 3 things:</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The Jacobian is a matrix, and it is unique.</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The Jacobian is a linear operator, and it is continuous.</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The Jacobian matrix is populated by the partial derivatives of $f$, that is</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>$$ \textbf{Jac}<span class="co">[</span><span class="ot">f</span><span class="co">](x)</span> = \left<span class="co">[</span><span class="ot">\dfrac{\partial f_j}{\partial x_i}(x)\right</span><span class="co">]</span>_{\substack{1\leq i \leq m<span class="sc">\\</span>1\leq j \leq n}}$$</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Careful about the dimensions !</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>The jacobian sends points from a $n$-dimensional space to a $m$-dimensional space, so the Jacobian matrix is a $m\times n$ matrix. This is why the partial derivatives are written in the order $\dfrac{\partial f_j}{\partial x_i}$, because the $j$th row of the matrix is the partial derivatives of $f_j$ with respect to the $x_i$'s.  </span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>This is very counterintuitive to anyone who works with the gradient $\nabla f(x)$, which is a $n$-dimensional vector, and is the transpose of the Jacobian matrix.</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## A small example using python</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>Let's take a look at a small example I made using python's <span class="in">`sympy`</span> library. Through <span class="co">[</span><span class="ot">graphing increasingly complex 2D functions on an online tool</span><span class="co">](https://www.math3d.org/)</span>, I found a function that is complex enough for us to have fun, but not too complex that we can't understand it.</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>The function is:</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>$$G(x,y) = \log\left<span class="co">[</span><span class="ot">1+\left(x^{\frac{1}{3}} - y^{\frac{2}{3}}\right)^2\left(0.1+\sin \left(x\right)^2\cdot \cos \left(x\right)^2\right)^{-1}\right</span><span class="co">]</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>But I think it's easier to understand if we write it as:</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>$$ G(x,y) = \log\left(1 + \dfrac{A(x,y)^2}{\gamma + B(x,y)^2}\right)$$</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>with $A(x,y) = x^{\frac{1}{3}} - y^{\frac{2}{3}}$ and $B(x,y) = \sin \left(x\right)\cdot \cos \left(x\right)$.</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>We can plot this function using <span class="in">`plotly`</span>:</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/Cost2DOptimPlot-Purple.html" title="Plot of the cost function $G(x,y)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>Now let us see what happens if we slice this function $G$ along a ray</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>$$\mathbf{Ray}(x_0) = <span class="sc">\{</span> (x,y)\colon x = x_0<span class="sc">\}</span>$$</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>where $x_0$ is a constant. We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Jacobian</span></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>This way we estimate the value $\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)$ at the point $(x_0,y_0)$</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>I'm actually lazy enough that I didn't want to do the math to find the Jacobian, so I just used <span class="in">`sympy`</span> to do it for me. Here is the code:</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>sdG <span class="op">=</span> sy.Matrix([</span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,x)),</span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    sy.simplify(sy.diff(sG,y))</span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>This gives us the frankly terrifying result:</span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>\mathbf{Jac}<span class="co">[</span><span class="ot">G</span><span class="co">](x,y)</span> \coloneqq \begin{bmatrix}</span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>\frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} &amp; &amp;</span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>\frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="ot">[^2]: </span>There is a subtelty here, because we can't really just let any $h_i$ to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we'll use the euclidean norm $\lvert \cdot \rvert$), then we get that the limit exists and is unique.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu"># The Jacobian {#sec-jacobian}</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>The theorem that defines and cements the derivatives is the following:</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="at">&gt; Let $f\colon \mathbb{R}^n \to \mathbb{R}^m$ be a function. Then, at each point $x$ where $f$ is differentiable, there is a **unique matrix** $M(x)$ so that:</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="at">&gt; $$ f(x+h) \approx f(x) + M(x)h +\varepsilon (h)$$</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="at">&gt; where $\varepsilon (h)$ is a small vector in $\mathbb{R}^m$ that goes to $0$ faster than $h$ does</span><span class="ot">[^1]</span><span class="at">.</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="ot">[^1]: </span>in the sense of a norm: $\lvert x\rvert$, $\varepsilon(h)/\lvert x\rvert\to 0$ as $\lvert x\rvert\to 0$.</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="fu">## The Proof</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a>The uniqueness is fairly easy to prove, because if there are two matrices $M_1$ and $M_2$ such that $f(x+h) \approx f(x) + M_1h$ and $f(x+h) \approx f(x) + M_2h$, then we can subtract the two equations,</span>
+<span id="cb2-15"><a href="#cb2-15"></a>$$(M_1 - M_2)h = \varepsilon_1 (h) + \varepsilon_2 (h)$$</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a>divide by $\lvert{h}\rvert$ to get that the LHS tends to $M_1 - M_2$ as $h\to 0$, and the RHS tends to $0$ as $h\to 0$, so we get that $M_1 - M_2 = 0$.</span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a>The existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix $M(x)$ has coefficients $\left(\smash{\alpha_{ij}(x)}\right)_{i,j}$, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):</span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a>\begin{aligned}</span>
+<span id="cb2-22"><a href="#cb2-22"></a>f(x+h) &amp;= f(x) + M(x)h +\varepsilon (h) &amp;<span class="sc">\\</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a>\iff f_j(x+h) &amp;= f_j(x) + \sum_{i=1}^m \alpha_{ij}(x)h_j + \varepsilon_j (h) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span> <span class="sc">\\</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a>\iff f_j(x_i+h_i) &amp;= f_j(x_i) + \sum_{i=1}^m \alpha_{ij}(x_i)h_j + \varepsilon_j (h_i) &amp;\forall j\in<span class="sc">\{</span>1,\dots m<span class="sc">\}</span>,\,\forall i\in<span class="sc">\{</span>1,\dots n<span class="sc">\}</span> <span class="sc">\\</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a>\end{aligned}</span>
+<span id="cb2-26"><a href="#cb2-26"></a></span>
+<span id="cb2-27"><a href="#cb2-27"></a>This last set of equation is just a $m\times n$ grid of first order approximations for each $f_j$ at each $x_i$, and we can solve for the $\alpha_{ij}$ by just taking the limit as $h_i\to 0$ for each $i$<span class="ot">[^2]</span>. </span>
+<span id="cb2-28"><a href="#cb2-28"></a></span>
+<span id="cb2-29"><a href="#cb2-29"></a>If you hadn't guessed before, each of these equations are looking very much like </span>
+<span id="cb2-30"><a href="#cb2-30"></a>$$\varphi(x+h) \approx \varphi(x) + \varphi'(x)h + \varepsilon(h)$$</span>
+<span id="cb2-31"><a href="#cb2-31"></a></span>
+<span id="cb2-32"><a href="#cb2-32"></a> we know in 1D, and we can just take the limit as $h\to 0$ to get that $\varphi'(x) = \alpha_{ij}(x)$.  </span>
+<span id="cb2-33"><a href="#cb2-33"></a></span>
+<span id="cb2-34"><a href="#cb2-34"></a>What this proves is 3 things:</span>
+<span id="cb2-35"><a href="#cb2-35"></a></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="ss">1. </span>The Jacobian is a matrix, and it is unique.</span>
+<span id="cb2-37"><a href="#cb2-37"></a><span class="ss">2. </span>The Jacobian is a linear operator, and it is continuous.</span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="ss">3. </span>The Jacobian matrix is populated by the partial derivatives of $f$, that is</span>
+<span id="cb2-39"><a href="#cb2-39"></a></span>
+<span id="cb2-40"><a href="#cb2-40"></a>$$ \textbf{Jac}<span class="co">[</span><span class="ot">f</span><span class="co">](x)</span> = \left<span class="co">[</span><span class="ot">\dfrac{\partial f_j}{\partial x_i}(x)\right</span><span class="co">]</span>_{\substack{1\leq i \leq m<span class="sc">\\</span>1\leq j \leq n}}$$</span>
+<span id="cb2-41"><a href="#cb2-41"></a></span>
+<span id="cb2-42"><a href="#cb2-42"></a></span>
+<span id="cb2-43"><a href="#cb2-43"></a>::: {.callout-caution}</span>
+<span id="cb2-44"><a href="#cb2-44"></a><span class="fu">## Careful about the dimensions !</span></span>
+<span id="cb2-45"><a href="#cb2-45"></a>The jacobian sends points from a $n$-dimensional space to a $m$-dimensional space, so the Jacobian matrix is a $m\times n$ matrix. This is why the partial derivatives are written in the order $\dfrac{\partial f_j}{\partial x_i}$, because the $j$th row of the matrix is the partial derivatives of $f_j$ with respect to the $x_i$'s.  </span>
+<span id="cb2-46"><a href="#cb2-46"></a></span>
+<span id="cb2-47"><a href="#cb2-47"></a>This is very counterintuitive to anyone who works with the gradient $\nabla f(x)$, which is a $n$-dimensional vector, and is the transpose of the Jacobian matrix.</span>
+<span id="cb2-48"><a href="#cb2-48"></a>:::</span>
+<span id="cb2-49"><a href="#cb2-49"></a></span>
+<span id="cb2-50"><a href="#cb2-50"></a><span class="fu">## A small example using python</span></span>
+<span id="cb2-51"><a href="#cb2-51"></a></span>
+<span id="cb2-52"><a href="#cb2-52"></a>Let's take a look at a small example I made using python's <span class="in">`sympy`</span> library. Through <span class="co">[</span><span class="ot">graphing increasingly complex 2D functions on an online tool</span><span class="co">](https://www.math3d.org/)</span>, I found a function that is complex enough for us to have fun, but not too complex that we can't understand it.</span>
+<span id="cb2-53"><a href="#cb2-53"></a></span>
+<span id="cb2-54"><a href="#cb2-54"></a>The function is:</span>
+<span id="cb2-55"><a href="#cb2-55"></a></span>
+<span id="cb2-56"><a href="#cb2-56"></a></span>
+<span id="cb2-57"><a href="#cb2-57"></a>$$G(x,y) = \log\left<span class="co">[</span><span class="ot">1+\left(x^{\frac{1}{3}} - y^{\frac{2}{3}}\right)^2\left(0.1+\sin \left(x\right)^2\cdot \cos \left(x\right)^2\right)^{-1}\right</span><span class="co">]</span></span>
+<span id="cb2-58"><a href="#cb2-58"></a>$$</span>
+<span id="cb2-59"><a href="#cb2-59"></a></span>
+<span id="cb2-60"><a href="#cb2-60"></a>But I think it's easier to understand if we write it as:</span>
+<span id="cb2-61"><a href="#cb2-61"></a></span>
+<span id="cb2-62"><a href="#cb2-62"></a>$$ G(x,y) = \log\left(1 + \dfrac{A(x,y)^2}{\gamma + B(x,y)^2}\right)$$</span>
+<span id="cb2-63"><a href="#cb2-63"></a></span>
+<span id="cb2-64"><a href="#cb2-64"></a>with $A(x,y) = x^{\frac{1}{3}} - y^{\frac{2}{3}}$ and $B(x,y) = \sin \left(x\right)\cdot \cos \left(x\right)$.</span>
+<span id="cb2-65"><a href="#cb2-65"></a></span>
+<span id="cb2-66"><a href="#cb2-66"></a>We can plot this function using <span class="in">`plotly`</span>:</span>
+<span id="cb2-67"><a href="#cb2-67"></a></span>
+<span id="cb2-68"><a href="#cb2-68"></a><span class="in">```{=html}</span></span>
+<span id="cb2-69"><a href="#cb2-69"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/Cost2DOptimPlot-Purple.html" title="Plot of the cost function $G(x,y)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
+<span id="cb2-70"><a href="#cb2-70"></a><span class="in">```</span></span>
+<span id="cb2-71"><a href="#cb2-71"></a></span>
+<span id="cb2-72"><a href="#cb2-72"></a></span>
+<span id="cb2-73"><a href="#cb2-73"></a>Now let us see what happens if we slice this function $G$ along a ray</span>
+<span id="cb2-74"><a href="#cb2-74"></a></span>
+<span id="cb2-75"><a href="#cb2-75"></a>$$\mathbf{Ray}(x_0) = <span class="sc">\{</span> (x,y)\colon x = x_0<span class="sc">\}</span>$$</span>
+<span id="cb2-76"><a href="#cb2-76"></a></span>
+<span id="cb2-77"><a href="#cb2-77"></a>where $x_0$ is a constant. We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
+<span id="cb2-78"><a href="#cb2-78"></a></span>
+<span id="cb2-79"><a href="#cb2-79"></a><span class="in">```{=html}</span></span>
+<span id="cb2-80"><a href="#cb2-80"></a><span class="in">&lt;iframe scrolling="no" width="110%" height="800" src="https://storage.googleapis.com/open.data.arnov.dev/static/plots/optimization/slice-along-x-axis.html" title="Plot of the cost function $G(x_0,\cdot)$" sandbox="allow-same-origin allow-scripts allow-forms"&gt;&lt;/iframe&gt;</span></span>
+<span id="cb2-81"><a href="#cb2-81"></a><span class="in">```</span></span>
+<span id="cb2-82"><a href="#cb2-82"></a></span>
+<span id="cb2-83"><a href="#cb2-83"></a><span class="fu">### Computing the Jacobian</span></span>
+<span id="cb2-84"><a href="#cb2-84"></a></span>
+<span id="cb2-85"><a href="#cb2-85"></a>We can see that the function $G$ is a function of $y$ only, and we can plot it as a function of $y$:</span>
+<span id="cb2-86"><a href="#cb2-86"></a></span>
+<span id="cb2-87"><a href="#cb2-87"></a>This way we estimate the value $\displaystyle \dfrac{\partial G}{\partial y}(x_0,y_0)$ at the point $(x_0,y_0)$</span>
+<span id="cb2-88"><a href="#cb2-88"></a></span>
+<span id="cb2-89"><a href="#cb2-89"></a>I'm actually lazy enough that I didn't want to do the math to find the Jacobian, so I just used <span class="in">`sympy`</span> to do it for me. Here is the code:</span>
+<span id="cb2-90"><a href="#cb2-90"></a></span>
+<span id="cb2-91"><a href="#cb2-91"></a><span class="in">```python</span></span>
+<span id="cb2-92"><a href="#cb2-92"></a><span class="im">import</span> sympy <span class="im">as</span> sy</span>
+<span id="cb2-93"><a href="#cb2-93"></a></span>
+<span id="cb2-94"><a href="#cb2-94"></a>x,y,gamma,p,q <span class="op">=</span> sy.symbols(<span class="st">'x y gamma p q'</span>)</span>
+<span id="cb2-95"><a href="#cb2-95"></a>Y <span class="op">=</span> sy.cos(x)<span class="op">*</span>sy.sin(x)</span>
+<span id="cb2-96"><a href="#cb2-96"></a>A <span class="op">=</span> (x<span class="op">**</span>p <span class="op">-</span> y<span class="op">**</span>q)</span>
+<span id="cb2-97"><a href="#cb2-97"></a>B <span class="op">=</span> gamma <span class="op">+</span> Y<span class="op">*</span>Y</span>
+<span id="cb2-98"><a href="#cb2-98"></a>sG <span class="op">=</span> sy.log(<span class="dv">1</span><span class="op">+</span>A<span class="op">*</span>A<span class="op">/</span>B)</span>
+<span id="cb2-99"><a href="#cb2-99"></a>sdG <span class="op">=</span> sy.Matrix([</span>
+<span id="cb2-100"><a href="#cb2-100"></a>    [</span>
+<span id="cb2-101"><a href="#cb2-101"></a>    sy.simplify(sy.diff(sG,x)),</span>
+<span id="cb2-102"><a href="#cb2-102"></a>    sy.simplify(sy.diff(sG,y))</span>
+<span id="cb2-103"><a href="#cb2-103"></a>    ]</span>
+<span id="cb2-104"><a href="#cb2-104"></a>])</span>
+<span id="cb2-105"><a href="#cb2-105"></a>md(<span class="ss">f"$$</span><span class="ch">\\</span><span class="ss">mathbf</span><span class="sc">{</span>Jac<span class="sc">}</span><span class="ss">[G](x,y) = </span><span class="sc">{</span>sy<span class="sc">.</span>latex(sdG)<span class="sc">}</span><span class="ss">$$"</span>)</span>
+<span id="cb2-106"><a href="#cb2-106"></a><span class="in">```</span></span>
+<span id="cb2-107"><a href="#cb2-107"></a>This gives us the frankly terrifying result:</span>
+<span id="cb2-108"><a href="#cb2-108"></a></span>
+<span id="cb2-109"><a href="#cb2-109"></a>$$</span>
+<span id="cb2-110"><a href="#cb2-110"></a>\mathbf{Jac}<span class="co">[</span><span class="ot">G</span><span class="co">](x,y)</span> \coloneqq \begin{bmatrix}</span>
+<span id="cb2-111"><a href="#cb2-111"></a>\frac{2 \left(x^{p} - y^{q}\right) \left(p x^{p} \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) - \frac{x \left(x^{p} - y^{q}\right) \sin{\left(4 x \right)}}{4}\right)}{x \left(\gamma - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right) \left(\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}\right)} &amp; &amp;</span>
+<span id="cb2-112"><a href="#cb2-112"></a><span class="ss">- </span>\frac{2 q y^{q - 1} \left(x^{p} - y^{q}\right)}{\gamma + \left(x^{p} - y^{q}\right)^{2} - \frac{\cos{\left(4 x \right)}}{8} + \frac{1}{8}}\end{bmatrix}</span>
+<span id="cb2-113"><a href="#cb2-113"></a>$$</span>
+<span id="cb2-114"><a href="#cb2-114"></a></span>
+<span id="cb2-115"><a href="#cb2-115"></a><span class="fu">### What does this mean ?</span></span>
+<span id="cb2-116"><a href="#cb2-116"></a></span>
+<span id="cb2-117"><a href="#cb2-117"></a>As we will see later, the Jacobian $\mathbf{Jac}<span class="co">[</span><span class="ot">G</span><span class="co">]</span>$ is a very important tool in optimization. The gradient is a vector that points in the direction of the __steepest ascent__ of the function $G$ at the point $(x,y)$, &amp; its norm is the slope of the function $G$ at the point $(x,y)$.</span>
+<span id="cb2-118"><a href="#cb2-118"></a></span>
+<span id="cb2-119"><a href="#cb2-119"></a>So as a last small exercise, let's compute the countours of $(x,y)\mapsto \lvert \mathbf{Jac}<span class="co">[</span><span class="ot">G</span><span class="co">](x,y)</span> \rvert$ and see what it looks like.</span>
+<span id="cb2-120"><a href="#cb2-120"></a></span>
+<span id="cb2-121"><a href="#cb2-121"></a><span class="ot">[^2]: </span>There is a subtelty here, because we can't really just let any $h_i$ to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we'll use the euclidean norm $\lvert \cdot \rvert$), then we get that the limit exists and is unique.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

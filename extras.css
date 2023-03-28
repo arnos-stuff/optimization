@@ -42,3 +42,13 @@ iframe {
 * > code span.dt {
     color: #fff27f;
 }
+
+* > a {
+    color: #9728ff;
+    -webkit-text-stroke-color: #593bb5b2;
+}
+
+* > a:hover {
+    color: #9400a5;
+    -webkit-text-stroke-color: #593bb5b2;
+}

@@ -59,9 +59,6 @@ def find_domain_points(npts, grid, func, explore=False):
         xdom[randinds].ravel().tolist(),
         ydom[randinds].ravel().tolist()
     )
-    
-
-
 
 def slice_grid(
     x=None,

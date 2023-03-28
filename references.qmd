@@ -1,11 +1,44 @@
 # References {.unnumbered}
 
 ::: {#refs}
+
+```{=latex}
+\bibliographystyle{plainnat}
+\bibliography{references}
+```
 :::
 
 ## LaTeX Macros {.unnumbered}
 
 ::: {#latex-macros}
-$$\newcommand{\argmin}{\operatorname*{argmin}}$$
-$$\newcommand{\argmax}{\operatorname*{argmax}}$$
+
+```{=latex}
+\newcommand{\argmin}{\operatorname*{argmin}}
+\newcommand{\argmax}{\operatorname*{argmax}}
+\newcommand{\E}{\operatorname*{E}}
+\newcommand{\Var}{\operatorname*{Var}}
+\newcommand{\Cov}{\operatorname*{Cov}}
+\newcommand{\Corr}{\operatorname*{Corr}}
+\newcommand{\Covar}{\operatorname*{Covar}}
+\newcommand{\dom}{\operatorname*{dom}}
+\newcommand{\im}{\operatorname*{im}}
+\newcommand{\rank}{\operatorname*{rank}}
+\newcommand{\tr}{\operatorname*{tr}}
+\newcommand{\diag}{\operatorname*{diag}}
+\newcommand{\sign}{\operatorname*{sign}}
+\newcommand{\sgn}{\operatorname*{sgn}}
+\newcommand{\sort}{\operatorname*{sort}}
+\newcommand{\span}{\operatorname*{span}}
+\newcommand{\dist}{\operatorname*{dist}}
+\newcommand{\diam}{\operatorname*{diam}}
+\newcommand{\supp}{\operatorname*{supp}}
+\newcommand{\conv}{\operatorname*{conv}}
+\newcommand{\prox}{\operatorname*{prox}}
+\newcommand{\LBFGS}{\operatorname*{LBFGS}}
+\newcommand{\Lip}{\operatorname*{Lip}}
+\newcommand{\Sob}{\mathscr{S}}
+\newcommand{\AutoCorr}[2]{\operatorname*{R}\limits_{#1,#2}}
+\newcommand{\dConv}[4]{\displaystyle\sum_{\tau=#1}^{#2}#3(\tau)\, #4(t-\tau)}
+\newcommand{\cConv}[4]{\int_{\tau=#1}^{#2}#3(t)\, #4(t-\tau)\text{d}\tau}}
+
 :::

@@ -1,0 +1,3 @@
+# The Chain Rule {.ChainRule}
+
+As we've seen in @sec-jacobian, the derivative of a function is a function that tells us how fast the original function is changing at any given point. The derivative of a function is a function, and so we can take the derivative of a derivative. This is called the chain rule.

@@ -3,11 +3,28 @@ project:
   title: "Optimization basics"
   output-dir: public
 
-
-
+cover: "BasicsOptim-Eq.png"
 book:
   title: "Optimization"
   author: "Arno Veletanlic"
+  subtitle: "Basics"
+  archive: "optim.zip"
+  sharing: twitter
+  cover-image: static\Cover-Detail.png
+  downloads: pdf
+  site-url: "https://optim.arnov.dev"
+  open-graph: true
+  license: "CC BY-NC-SA 4.0"
+  keyword: optimization, math, python, programming, data-science, machine-learning, multivariate-calculus, linear-algebra, statistics
+  favicon: static\favicon.ico
+  twitter-card:
+    site: "https://optim.arnov.dev"
+    creator: "@arno_shae"
+    image: static\Book-Horizontal-adjusted.png
+    title: "A small Optimization Book"
+    description: "Optimization basics"
+    card-style: summary_large_image
+  page-navigation: true
   date: today
   navbar:
     show: true
@@ -38,6 +55,7 @@ book:
 
 bibliography: references.bib
 link-citations: true
+number-depth: 3
 
 latex-auto-install: true
 latex-auto-install-preamble: true
@@ -47,11 +65,12 @@ latex-auto-mk: true
 parallax-background-size: cover
 parallax-background-position: center
 parallax-background-repeat: no-repeat
-highlight-style: custom.theme
+highlight-style: pygments
+
 
 format:
   html:
-    highlight-style: custom.theme
+      
     theme: quartz
     css:
       - ./theme/bootswatch/dist/quartz/bootstrap.css
@@ -76,9 +95,14 @@ format:
     fig-caption-font-size: 0.8em
     footnotes-hover: true
     code-fold: true
+    code-copy: true
+    code-line-numbers: true
     code-tools: true
     code-tools-position: top
     include-in-header: 
       - katex.html
+    include-after-body: 
+      - license.html
+      
 
 

@@ -1,26 +1,17 @@
 {
   "index.qmd": {
-    "index.html": "25e758ee"
-  },
-  "basics/first-definitions.qmd": {
-    "first-definitions.html": "888069ee"
-  },
-  "intro.qmd": {
-    "intro.html": "57087298"
-  },
-  "summary.qmd": {
-    "summary.html": "0d2022ec"
-  },
-  "references.qmd": {
-    "references.html": "bef23e25"
-  },
-  "about.qmd": {
-    "about.html": "d6dd56ad"
-  },
-  "basics/the-jacobian.qmd": {
-    "the-jacobian.html": "35b2da63"
+    "index.html": "876a6b46"
   },
   "preface.qmd": {
-    "preface.html": "2988316f"
+    "preface.html": "3719b6b2"
+  },
+  "basics/first-definitions.qmd": {
+    "first-definitions.html": "f718b160"
+  },
+  "basics/the-jacobian.qmd": {
+    "the-jacobian.html": "fbb95c8a"
+  },
+  "about.qmd": {
+    "about.html": "5c27b12d"
   }
 }
