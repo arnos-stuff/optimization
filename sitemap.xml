@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://optim.arnov.dev/index.html</loc>
+    <lastmod>2023-06-08T03:39:11.829Z</lastmod>
+  </url>
+  <url>
+    <loc>https://optim.arnov.dev/preface.html</loc>
+    <lastmod>2023-06-08T03:39:11.869Z</lastmod>
+  </url>
+  <url>
+    <loc>https://optim.arnov.dev/basics/first-definitions.html</loc>
+    <lastmod>2023-06-08T03:39:11.933Z</lastmod>
+  </url>
+  <url>
+    <loc>https://optim.arnov.dev/basics/the-jacobian.html</loc>
+    <lastmod>2023-06-08T03:39:12.017Z</lastmod>
+  </url>
+  <url>
+    <loc>https://optim.arnov.dev/examples/foreign-aid.html</loc>
+    <lastmod>2023-06-08T03:39:12.213Z</lastmod>
+  </url>
+  <url>
+    <loc>https://optim.arnov.dev/about.html</loc>
+    <lastmod>2023-06-08T03:39:12.293Z</lastmod>
+  </url>
+</urlset>

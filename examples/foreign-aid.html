@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Optimization - 4&nbsp; Which country to give foreign aid to ?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../about.html" rel="next">
+<link href="../basics/the-jacobian.html" rel="prev">
+<link href="../static/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+<script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/copy-tex.min.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/mathtex-script-type.min.js" integrity="sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT" crossorigin="anonymous"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/mhchem.min.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK+rPp+h1x/izR7xMkdMyuwkcZCWdxO+RSwIFtJXN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="../theme/bootswatch/dist/quartz/bootstrap.css">
+<link rel="stylesheet" href="../theme/bootswatch/dist/quartz-custom/bootstrap.css">
+<link rel="stylesheet" href="../extras.css">
+<meta property="og:title" content="Optimization - 4&nbsp; Which country to give foreign aid to ?">
+<meta property="og:description" content="">
+<meta property="og:site-name" content="Optimization">
+<meta name="twitter:title" content="A small Optimization Book">
+<meta name="twitter:description" content="Optimization basics">
+<meta name="twitter:image" content="https://optim.arnov.dev/examples/static/Book-Horizontal-adjusted.png">
+<meta name="twitter:creator" content="@arno_shae">
+<meta name="twitter:site" content="https://optim.arnov.dev">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Optimization</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+    <a href="../Optimization.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=|url|" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../examples/foreign-aid.html">Examples</a></li><li class="breadcrumb-item"><a href="../examples/foreign-aid.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Which country to give foreign aid to ?</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Basics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../basics/first-definitions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Optimization basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../basics/the-jacobian.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/foreign-aid.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Which country to give foreign aid to ?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">About</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-log-trick" id="toc-the-log-trick" class="nav-link active" data-scroll-target="#the-log-trick"><span class="header-section-number">4.1</span> The log trick</a></li>
+  <li><a href="#but-what-is-the-domain" id="toc-but-what-is-the-domain" class="nav-link" data-scroll-target="#but-what-is-the-domain"><span class="header-section-number">4.2</span> But what is the domain ?</a></li>
+  <li><a href="#convex-hull-formulation" id="toc-convex-hull-formulation" class="nav-link" data-scroll-target="#convex-hull-formulation"><span class="header-section-number">4.3</span> Convex Hull formulation</a>
+  <ul class="collapse">
+  <li><a href="#addendum" id="toc-addendum" class="nav-link" data-scroll-target="#addendum"><span class="header-section-number">4.3.1</span> Addendum</a></li>
+  </ul></li>
+  <li><a href="#final-statement" id="toc-final-statement" class="nav-link" data-scroll-target="#final-statement"><span class="header-section-number">4.4</span> Final statement</a></li>
+  <li><a href="#solving-the-problem" id="toc-solving-the-problem" class="nav-link" data-scroll-target="#solving-the-problem"><span class="header-section-number">5</span> Solving the problem</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Which country to give foreign aid to ?</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Consider the following tweet:</p>
+<blockquote data-chrome="transparent nofooter noborders noheader noscrollbar" class="twitter-tweet blockquote">
+<p lang="en" dir="ltr">
+you can choose a country, or countries, composed of no more than 150m people, to immediately increase in gdp/c by $10,000. which do you choose and why
+</p>
+— no brain (<span class="citation" data-cites="_night_brain__">(<a href="#ref-_night_brain__" role="doc-biblioref"><strong>_night_brain__?</strong></a>)</span>) <a href="https://twitter.com/_night_brain__/status/1666492981925273616?ref_src=twsrc%5Etfw">June 7, 2023</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>This, if we denote the GDP as the variable <span class="math inline">g \geq 0</span>, and the population as <span class="math inline">p \geq 0</span>, turns into the min-max problem:</p>
+<p><span class="math display">
+\begin{align*}
+&amp;\min_g\left\lbrace\max_p\left\lbrace\dfrac{g}{p}\right\rbrace\right\rbrace\\
+&amp;\text{such that}\\
+&amp;\qquad\qquad p \leq P_T \\
+&amp;\qquad\qquad g \geq 0\\
+&amp;\qquad\qquad p \geq 0\\
+\end{align*}
+</span></p>
+<p>where <span class="math inline">P_T = 150\cdot 10^6</span> is an upper bound on the population level.</p>
+<section id="the-log-trick" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-log-trick"><span class="header-section-number">4.1</span> The log trick</h2>
+<p>as <span class="math inline">\log(\cdot)</span> is increasing, convex and smooth, any optimization problem can be taken to log space without affecting the objective.</p>
+<p>this yields the objective <span class="math inline">\tilde{C}(\theta) \triangleq \log g - \log p</span>, with <span class="math inline">\theta = (p,g)</span>.</p>
+<p>Further, as we know that <span class="math inline">\min_z f(z) = -\max_z\{-f(z)\}</span> are attained at the same point <span class="math inline">z^\star</span>, we can reframe the min-max problem as:</p>
+<p><span class="math display">\min_{\theta}\left\lbrace C(\theta)\right\rbrace \triangleq \min_{\theta}\left\lbrace \log g + \log p\right\rbrace = \min_{\theta}\left\lbrace \mathbf{1}^\mathsf{T}\theta\right\rbrace</span></p>
+<p>the constraints become <span class="math inline">\theta_1, \theta_2 \in \mathbb{R}</span> and <span class="math inline">\theta_1 \leq \log P_T</span>.</p>
+</section>
+<section id="but-what-is-the-domain" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="but-what-is-the-domain"><span class="header-section-number">4.2</span> But what is the domain ?</h2>
+<p>We haven’t really defined constraints on <span class="math inline">g</span> and <span class="math inline">p</span>, they can’t obviously be anything.</p>
+<p>As the problem states here, the goal is to be <em>any finite combination of states</em>. Let <span class="math display">N(P_T) \triangleq \lvert \mathbf{C}(P_T) \rvert \triangleq\lvert \{ i \in \mathbb{N} \mid g_i \leq P_T \}\rvert </span></p>
+<p>This is the set of countries whose GDP is less than <span class="math inline">P_T</span>.</p>
+<p>Let us figure out how many they are.</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># dependencies: pandas, wbdata</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> wbdata <span class="im">as</span> wb</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> wbdata <span class="im">as</span> wb</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> re</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">def</span> country(row):</span>
+<span id="cb1-10"><a href="#cb1-10"></a>  ids <span class="op">=</span> <span class="st">'country.id'</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  vals <span class="op">=</span> <span class="st">'country.value'</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>  <span class="cf">if</span> re.match(<span class="vs">r"\d\w"</span>, row[ids]):</span>
+<span id="cb1-13"><a href="#cb1-13"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="cf">elif</span> re.match(<span class="vs">r"\w\d"</span>, row[ids]):</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>  <span class="cf">elif</span> row[<span class="st">'countryiso3code'</span>] <span class="kw">in</span> (<span class="st">'HPC'</span>, <span class="st">'IDB'</span>, <span class="st">'IDX'</span>, <span class="st">'IBD'</span>, <span class="st">'LCN'</span>, <span class="st">'LDC'</span>, <span class="st">'OED'</span>, <span class="st">''</span>, <span class="st">'NAC'</span>):</span>
+<span id="cb1-17"><a href="#cb1-17"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>  <span class="cf">else</span>:</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    v <span class="op">=</span> row[vals].lower()</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    <span class="cf">if</span> (<span class="st">'income'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'total'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'africa'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'euro'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'states'</span> <span class="kw">in</span> v):</span>
+<span id="cb1-21"><a href="#cb1-21"></a>      <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-23"><a href="#cb1-23"></a>      <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a>gdpc <span class="op">=</span> wb.get_data(<span class="st">"NY.GDP.PCAP.PP.CD"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26"></a>dfg <span class="op">=</span> pd.json_normalize(gdpc)</span>
+<span id="cb1-27"><a href="#cb1-27"></a>dfgc <span class="op">=</span> dfg[(dfg.<span class="bu">apply</span>(country, axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&amp;</span> (dfg.date.astype(<span class="st">'int'</span>) <span class="op">&gt;</span> <span class="dv">2018</span>) <span class="op">&amp;</span> <span class="op">~</span>(dfg.value.isna())].drop_duplicates(subset<span class="op">=</span>[<span class="st">"country.id"</span>])</span>
+<span id="cb1-28"><a href="#cb1-28"></a>dfp <span class="op">=</span> wb.get_data(<span class="st">"SP.POP.TOTL"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29"></a>dfp <span class="op">=</span> pd.json_normalize(dfp)</span>
+<span id="cb1-30"><a href="#cb1-30"></a>df <span class="op">=</span> pd.merge(dfgc, dfp[[<span class="st">"country.id"</span>, <span class="st">"date"</span>, <span class="st">'value'</span>]].rename(columns<span class="op">=</span>{<span class="st">"value"</span>:<span class="st">"population"</span>}), on<span class="op">=</span>[<span class="st">"country.id"</span>, <span class="st">"date"</span>]).rename(columns<span class="op">=</span>{<span class="st">"value"</span>:<span class="st">"gdp_per_capita"</span>})</span>
+<span id="cb1-31"><a href="#cb1-31"></a>dfs <span class="op">=</span> df[[<span class="st">'country.value'</span>, <span class="st">'population'</span>, <span class="st">'gdp_per_capita'</span>]].copy()</span>
+<span id="cb1-32"><a href="#cb1-32"></a>dfs[<span class="st">'gdp'</span>] <span class="op">=</span> dfs.gdp_per_capita <span class="op">*</span> dfs.population</span>
+<span id="cb1-33"><a href="#cb1-33"></a></span>
+<span id="cb1-34"><a href="#cb1-34"></a>dfs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country.value</th>
+<th data-quarto-table-cell-role="th">population</th>
+<th data-quarto-table-cell-role="th">gdp_per_capita</th>
+<th data-quarto-table-cell-role="th">gdp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Afghanistan</td>
+<td>40099462.0</td>
+<td>1665.805842</td>
+<td>6.679792e+10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Albania</td>
+<td>2811666.0</td>
+<td>15814.411571</td>
+<td>4.446484e+10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Algeria</td>
+<td>44177969.0</td>
+<td>12128.274991</td>
+<td>5.358026e+11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Angola</td>
+<td>34503774.0</td>
+<td>6491.125578</td>
+<td>2.239683e+11</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Antigua and Barbuda</td>
+<td>93219.0</td>
+<td>21010.003574</td>
+<td>1.958532e+09</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">185</td>
+<td>Vanuatu</td>
+<td>319137.0</td>
+<td>3057.411400</td>
+<td>9.757331e+08</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">186</td>
+<td>Vietnam</td>
+<td>97468029.0</td>
+<td>11676.108560</td>
+<td>1.138047e+12</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">187</td>
+<td>West Bank and Gaza</td>
+<td>4922749.0</td>
+<td>6199.451018</td>
+<td>3.051834e+10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">188</td>
+<td>Zambia</td>
+<td>19473125.0</td>
+<td>3555.920229</td>
+<td>6.924488e+10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">189</td>
+<td>Zimbabwe</td>
+<td>15993524.0</td>
+<td>2323.687257</td>
+<td>3.716395e+10</td>
+</tr>
+</tbody>
+</table>
+
+<p>190 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<p>Let us build the model. For that we need <span class="math inline">N</span></p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">class</span> Country:</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  data <span class="op">=</span> dfs</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="kw">def</span> underPop(threshold: <span class="bu">int</span>):</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold, <span class="st">'country.value'</span>].values.tolist()</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="kw">def</span> underPopCount(threshold: <span class="bu">int</span>):</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="cf">return</span> <span class="bu">len</span>(dfs.loc[dfs.population <span class="op">&lt;</span> threshold, <span class="st">'country.value'</span>].values.tolist())</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="kw">def</span> underPopMatrix(threshold: <span class="bu">int</span>):</span>
+<span id="cb2-11"><a href="#cb2-11"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold, [<span class="st">'gdp'</span>, <span class="st">'population'</span>]].values</span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>  <span class="kw">def</span> underPopDf(threshold: <span class="bu">int</span>):</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold].rename({<span class="st">'country.value'</span>:<span class="st">'country'</span>})</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="bu">print</span>(<span class="ss">f"The number of countries with population less than </span><span class="sc">{</span><span class="dv">150</span><span class="sc">}</span><span class="ss"> million is: </span><span class="sc">{</span>Country<span class="sc">.</span>underPopCount(<span class="dv">150</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The number of countries with population less than 150 million is: 183</code></pre>
+</div>
+</div>
+</section>
+<section id="convex-hull-formulation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="convex-hull-formulation"><span class="header-section-number">4.3</span> Convex Hull formulation</h2>
+<p>So we are going to set <span class="math inline">N = N(P_T) = 183</span>. The goal is hence to find any point <span class="math inline">\mathbf{x}\in\mathbf{Hull}(\Theta)</span> with <span class="math inline">\Theta = \{\theta_i\}_{i\in\mathbf{C}(P_T)}</span> so that <span class="math inline">\mathbf{1}^\mathsf{T}\mathbf{x}</span> is minimal.</p>
+<p>This means we are instead optimizing on the weights we give to each country <span class="math inline">w_i \in [0,1]</span>, this weight corresponds to the fraction of the country that is going to receive aid.</p>
+<p>Let <span class="math inline">\mathbf{w}\in [0,1]^N</span> be those weights, one per country. The problem can be cast into a LP through the constraints</p>
+<p><span class="math display">\mathbf{1}^\mathsf{T}\mathbf{w} = 1 \quad\text{and}\quad \mathbf{C}\mathbf{w} = \mathbf{x} \quad\text{and}\quad \mathbf{w}\geq 0 </span></p>
+<p>where</p>
+<p><span class="math display">\mathbf{C} = \begin{bmatrix}
+\theta^1 &amp; \theta^2 &amp; \cdots &amp;\theta^i &amp; \cdots &amp; \theta^N
+\end{bmatrix} = \begin{bmatrix}\theta_1^1 &amp; \theta_1^2 &amp; \cdots &amp;\theta_1^i &amp; \cdots &amp; \theta^N_1 \\
+\theta_2^1 &amp; \theta_2^2 &amp; \cdots &amp;\theta_2^i &amp; \cdots &amp; \theta^N_1
+\end{bmatrix}
+</span></p>
+<p>Hence</p>
+<p>is just a matrix where we store the <span class="math inline">N</span> possible countries’ GDP and populations.</p>
+<p>This is not yet a LP, unless you realize you can just recast the objective as <span class="math inline">\mathbf{1}^\mathsf{T}\mathbf{C}\mathbf{w} \triangleq \mathbf{c}^\mathsf{T}\mathbf{w}</span>.</p>
+<p>As per the constraint, for the upper bound we just need that <span class="math inline">\mathbf{B}\mathbf{C}\mathbf{w} = \mathbf{B}\mathbf{x}\leq \mathbf{b}</span> where <span class="math inline">\mathbf{B}</span> is the matrix</p>
+<p><span class="math display">\mathbf{B} = \left[\begin{array}{c:c}
+0 &amp; 0\\\hdashline 0 &amp; 1\end{array}\right]</span></p>
+<p>And the constraint <span class="math inline">\mathbf{1}^\mathsf{T}\mathbf{w} = 1</span> can be transformed into the variable integrates into the final block matrix</p>
+<p><span class="math display">\mathbf{A} = \left[\begin{array}{c}
+\mathbf{1}^\mathsf{T}\\
+\hdashline
+\mathbf{B}\mathbf{C}\end{array}\right]
+\implies \mathbf{A}\mathbf{w} = \mathbf{b}\quad\text{with}\quad\mathbf{b}=\left[\begin{array}{c}
+1 \\ 0\\P_T\end{array}\right]</span></p>
+<section id="addendum" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="addendum"><span class="header-section-number">4.3.1</span> Addendum</h3>
+<p>It is clear that the true constraint isn’t <span class="math inline">\mathbf{A}\mathbf{x} = \mathbf{b}</span>, as one of the constraints is an inequality. This can be reality alleviated using so-called “slack variables”, but solvers usually do that for us so we won’t yet bother doing it manually.</p>
+</section>
+</section>
+<section id="final-statement" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="final-statement"><span class="header-section-number">4.4</span> Final statement</h2>
+<p>The final problem is</p>
+<p><span class="math display">
+\begin{align*}
+&amp;\min_\mathbf{w}\quad \mathbf{c}^\mathsf{T}\mathbf{w}\\
+&amp;\text{such that}\quad\mathbf{A}\mathbf{w} = \mathbf{b}\\
+&amp;\qquad\qquad\qquad\mathbf{w} \geq 0
+\end{align*}
+</span></p>
+</section>
+<section id="solving-the-problem" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Solving the problem</h1>
+<p>We are going to use the nice library <a href="https://www.cvxpy.org/index.html">CVX</a> to solve the problem.</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>PopMax <span class="op">=</span> <span class="dv">150</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>N <span class="op">=</span> Country.underPopCount(PopMax)</span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a>C <span class="op">=</span> Country.underPopMatrix(PopMax)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>C <span class="op">=</span> cp.Constant(np.log(C))</span>
+<span id="cb4-9"><a href="#cb4-9"></a>B <span class="op">=</span> cp.Constant([[<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">1</span>]])</span>
+<span id="cb4-10"><a href="#cb4-10"></a>b <span class="op">=</span> cp.Constant(np.array([<span class="dv">0</span>, np.log(PopMax)]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb4-11"><a href="#cb4-11"></a>ones <span class="op">=</span> cp.Constant(np.ones((N,<span class="dv">1</span>)))</span>
+<span id="cb4-12"><a href="#cb4-12"></a>agg <span class="op">=</span> cp.Constant(np.ones((<span class="dv">2</span>,<span class="dv">1</span>)))</span>
+<span id="cb4-13"><a href="#cb4-13"></a>c <span class="op">=</span>  C <span class="op">@</span> agg </span>
+<span id="cb4-14"><a href="#cb4-14"></a>w <span class="op">=</span> cp.Variable(shape<span class="op">=</span>(N,<span class="dv">1</span>), pos<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-15"><a href="#cb4-15"></a></span>
+<span id="cb4-16"><a href="#cb4-16"></a>prob <span class="op">=</span> cp.Problem( cp.Minimize( c.T <span class="op">@</span> w ),</span>
+<span id="cb4-17"><a href="#cb4-17"></a>constraints<span class="op">=</span>[</span>
+<span id="cb4-18"><a href="#cb4-18"></a>    w <span class="op">&gt;=</span> <span class="dv">0</span>,</span>
+<span id="cb4-19"><a href="#cb4-19"></a>    ones.T <span class="op">@</span> w <span class="op">==</span> <span class="dv">1</span>,</span>
+<span id="cb4-20"><a href="#cb4-20"></a>    B <span class="op">@</span> C.T <span class="op">@</span> w <span class="op">&lt;=</span> b]</span>
+<span id="cb4-21"><a href="#cb4-21"></a>    )</span>
+<span id="cb4-22"><a href="#cb4-22"></a></span>
+<span id="cb4-23"><a href="#cb4-23"></a>prob.solve(verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-24"><a href="#cb4-24"></a></span>
+<span id="cb4-25"><a href="#cb4-25"></a>dfr <span class="op">=</span> Country.underPopDf(PopMax)</span>
+<span id="cb4-26"><a href="#cb4-26"></a>dfr[<span class="st">'percentage'</span>] <span class="op">=</span> np.<span class="bu">round</span>(w.value,<span class="dv">10</span>)</span>
+<span id="cb4-27"><a href="#cb4-27"></a>dfr[dfr.percentage <span class="op">&gt;</span> <span class="dv">0</span>].sort_values(<span class="st">'percentage'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country.value</th>
+<th data-quarto-table-cell-role="th">population</th>
+<th data-quarto-table-cell-role="th">gdp_per_capita</th>
+<th data-quarto-table-cell-role="th">gdp</th>
+<th data-quarto-table-cell-role="th">percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">178</td>
+<td>Tuvalu</td>
+<td>11204.0</td>
+<td>5409.511692</td>
+<td>6.060817e+07</td>
+<td>1.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">121</td>
+<td>Nauru</td>
+<td>12511.0</td>
+<td>13125.348372</td>
+<td>1.642112e+08</td>
+<td>1.000000e-10</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-arno_shae" class="csl-entry" role="listitem">
+V, Arno. 2023. <em>Personal Website</em>. <a href="https://cv.arnov.dev">https://cv.arnov.dev</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          trigger: 'click',
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          positionFixed: true,
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../basics/the-jacobian.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Jacobian</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../about.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">About</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu"># Which country to give foreign aid to ?</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>Consider the following tweet:</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">&lt;blockquote</span> <span class="er">data-chrome</span><span class="ot">=</span><span class="st">"transparent nofooter noborders noheader noscrollbar"</span> <span class="er">class</span><span class="ot">=</span><span class="st">"twitter-tweet"</span><span class="kw">&gt;&lt;p</span> <span class="er">lang</span><span class="ot">=</span><span class="st">"en"</span> <span class="er">dir</span><span class="ot">=</span><span class="st">"ltr"</span><span class="kw">&gt;</span>you can choose a country, or countries, composed of no more than 150m people, to immediately increase in gdp/c by $10,000. which do you choose and why<span class="kw">&lt;/p&gt;</span><span class="dv">&amp;mdash;</span> no brain (@_night_brain__) &lt;a href="https://twitter.com/_night_brain__/status/1666492981925273616?ref_src=twsrc%5Etfw"&gt;June 7, 2023<span class="kw">&lt;/a&gt;&lt;/blockquote&gt;</span> <span class="kw">&lt;script</span> <span class="er">async</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://platform.twitter.com/widgets.js"</span> <span class="er">charset</span><span class="ot">=</span><span class="st">"utf-8"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a>This, if we denote the GDP as the variable $g \geq 0$, and the population as $p \geq 0$, turns into the min-max problem:</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a>$$</span>
+<span id="cb5-12"><a href="#cb5-12"></a>\begin{align*}</span>
+<span id="cb5-13"><a href="#cb5-13"></a>&amp;\min_g\left\lbrace\max_p\left\lbrace\dfrac{g}{p}\right\rbrace\right\rbrace<span class="sc">\\</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a>&amp;\text{such that}<span class="sc">\\</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>&amp;\qquad\qquad p \leq P_T <span class="sc">\\</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a>&amp;\qquad\qquad g \geq 0<span class="sc">\\</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>&amp;\qquad\qquad p \geq 0<span class="sc">\\</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>\end{align*}</span>
+<span id="cb5-19"><a href="#cb5-19"></a>$$</span>
+<span id="cb5-20"><a href="#cb5-20"></a></span>
+<span id="cb5-21"><a href="#cb5-21"></a>where $P_T = 150\cdot 10^6$ is an upper bound on the population level.</span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="fu">## The log trick</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a></span>
+<span id="cb5-25"><a href="#cb5-25"></a>as $\log(\cdot)$ is increasing, convex and smooth, any optimization problem can be taken to log space without affecting the objective.</span>
+<span id="cb5-26"><a href="#cb5-26"></a></span>
+<span id="cb5-27"><a href="#cb5-27"></a>this yields the objective $\tilde{C}(\theta) \triangleq \log g - \log p$, with $\theta = (p,g)$.</span>
+<span id="cb5-28"><a href="#cb5-28"></a></span>
+<span id="cb5-29"><a href="#cb5-29"></a>Further, as we know that $\min_z f(z) = -\max_z<span class="sc">\{</span>-f(z)<span class="sc">\}</span>$ are attained at the same point $z^\star$, we can reframe the min-max problem as:</span>
+<span id="cb5-30"><a href="#cb5-30"></a></span>
+<span id="cb5-31"><a href="#cb5-31"></a>$$\min_{\theta}\left\lbrace C(\theta)\right\rbrace \triangleq \min_{\theta}\left\lbrace \log g + \log p\right\rbrace = \min_{\theta}\left\lbrace \mathbf{1}^\mathsf{T}\theta\right\rbrace$$</span>
+<span id="cb5-32"><a href="#cb5-32"></a></span>
+<span id="cb5-33"><a href="#cb5-33"></a>the constraints become $\theta_1, \theta_2 \in \mathbb{R}$ and $\theta_1 \leq \log P_T$.</span>
+<span id="cb5-34"><a href="#cb5-34"></a></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="fu">## But what is the domain ?</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a></span>
+<span id="cb5-37"><a href="#cb5-37"></a>We haven't really defined constraints on $g$ and $p$, they can't obviously be anything.</span>
+<span id="cb5-38"><a href="#cb5-38"></a></span>
+<span id="cb5-39"><a href="#cb5-39"></a>As the problem states here, the goal is to be *any finite combination of states*.</span>
+<span id="cb5-40"><a href="#cb5-40"></a>Let </span>
+<span id="cb5-41"><a href="#cb5-41"></a>$$N(P_T) \triangleq \lvert \mathbf{C}(P_T) \rvert \triangleq\lvert <span class="sc">\{</span> i \in \mathbb{N} \mid g_i \leq P_T <span class="sc">\}</span>\rvert $$</span>
+<span id="cb5-42"><a href="#cb5-42"></a></span>
+<span id="cb5-43"><a href="#cb5-43"></a>This is the set of countries whose GDP is less than $P_T$.</span>
+<span id="cb5-44"><a href="#cb5-44"></a></span>
+<span id="cb5-45"><a href="#cb5-45"></a>Let us figure out how many they are.</span>
+<span id="cb5-46"><a href="#cb5-46"></a></span>
+<span id="cb5-49"><a href="#cb5-49"></a><span class="in">```{python}</span></span>
+<span id="cb5-50"><a href="#cb5-50"></a><span class="co"># dependencies: pandas, wbdata</span></span>
+<span id="cb5-51"><a href="#cb5-51"></a><span class="im">import</span> wbdata <span class="im">as</span> wb</span>
+<span id="cb5-52"><a href="#cb5-52"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-53"><a href="#cb5-53"></a></span>
+<span id="cb5-54"><a href="#cb5-54"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-55"><a href="#cb5-55"></a><span class="im">import</span> wbdata <span class="im">as</span> wb</span>
+<span id="cb5-56"><a href="#cb5-56"></a><span class="im">import</span> re</span>
+<span id="cb5-57"><a href="#cb5-57"></a></span>
+<span id="cb5-58"><a href="#cb5-58"></a><span class="kw">def</span> country(row):</span>
+<span id="cb5-59"><a href="#cb5-59"></a>  ids <span class="op">=</span> <span class="st">'country.id'</span></span>
+<span id="cb5-60"><a href="#cb5-60"></a>  vals <span class="op">=</span> <span class="st">'country.value'</span></span>
+<span id="cb5-61"><a href="#cb5-61"></a>  <span class="cf">if</span> re.match(<span class="vs">r"\d\w"</span>, row[ids]):</span>
+<span id="cb5-62"><a href="#cb5-62"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb5-63"><a href="#cb5-63"></a>  <span class="cf">elif</span> re.match(<span class="vs">r"\w\d"</span>, row[ids]):</span>
+<span id="cb5-64"><a href="#cb5-64"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb5-65"><a href="#cb5-65"></a>  <span class="cf">elif</span> row[<span class="st">'countryiso3code'</span>] <span class="kw">in</span> (<span class="st">'HPC'</span>, <span class="st">'IDB'</span>, <span class="st">'IDX'</span>, <span class="st">'IBD'</span>, <span class="st">'LCN'</span>, <span class="st">'LDC'</span>, <span class="st">'OED'</span>, <span class="st">''</span>, <span class="st">'NAC'</span>):</span>
+<span id="cb5-66"><a href="#cb5-66"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb5-67"><a href="#cb5-67"></a>  <span class="cf">else</span>:</span>
+<span id="cb5-68"><a href="#cb5-68"></a>    v <span class="op">=</span> row[vals].lower()</span>
+<span id="cb5-69"><a href="#cb5-69"></a>    <span class="cf">if</span> (<span class="st">'income'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'total'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'africa'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'euro'</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">'states'</span> <span class="kw">in</span> v):</span>
+<span id="cb5-70"><a href="#cb5-70"></a>      <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb5-71"><a href="#cb5-71"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-72"><a href="#cb5-72"></a>      <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb5-73"><a href="#cb5-73"></a></span>
+<span id="cb5-74"><a href="#cb5-74"></a>gdpc <span class="op">=</span> wb.get_data(<span class="st">"NY.GDP.PCAP.PP.CD"</span>)</span>
+<span id="cb5-75"><a href="#cb5-75"></a>dfg <span class="op">=</span> pd.json_normalize(gdpc)</span>
+<span id="cb5-76"><a href="#cb5-76"></a>dfgc <span class="op">=</span> dfg[(dfg.<span class="bu">apply</span>(country, axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&amp;</span> (dfg.date.astype(<span class="st">'int'</span>) <span class="op">&gt;</span> <span class="dv">2018</span>) <span class="op">&amp;</span> <span class="op">~</span>(dfg.value.isna())].drop_duplicates(subset<span class="op">=</span>[<span class="st">"country.id"</span>])</span>
+<span id="cb5-77"><a href="#cb5-77"></a>dfp <span class="op">=</span> wb.get_data(<span class="st">"SP.POP.TOTL"</span>)</span>
+<span id="cb5-78"><a href="#cb5-78"></a>dfp <span class="op">=</span> pd.json_normalize(dfp)</span>
+<span id="cb5-79"><a href="#cb5-79"></a>df <span class="op">=</span> pd.merge(dfgc, dfp[[<span class="st">"country.id"</span>, <span class="st">"date"</span>, <span class="st">'value'</span>]].rename(columns<span class="op">=</span>{<span class="st">"value"</span>:<span class="st">"population"</span>}), on<span class="op">=</span>[<span class="st">"country.id"</span>, <span class="st">"date"</span>]).rename(columns<span class="op">=</span>{<span class="st">"value"</span>:<span class="st">"gdp_per_capita"</span>})</span>
+<span id="cb5-80"><a href="#cb5-80"></a>dfs <span class="op">=</span> df[[<span class="st">'country.value'</span>, <span class="st">'population'</span>, <span class="st">'gdp_per_capita'</span>]].copy()</span>
+<span id="cb5-81"><a href="#cb5-81"></a>dfs[<span class="st">'gdp'</span>] <span class="op">=</span> dfs.gdp_per_capita <span class="op">*</span> dfs.population</span>
+<span id="cb5-82"><a href="#cb5-82"></a></span>
+<span id="cb5-83"><a href="#cb5-83"></a>dfs</span>
+<span id="cb5-84"><a href="#cb5-84"></a><span class="in">```</span></span>
+<span id="cb5-85"><a href="#cb5-85"></a></span>
+<span id="cb5-86"><a href="#cb5-86"></a>Let us build the model. For that we need $N$</span>
+<span id="cb5-87"><a href="#cb5-87"></a></span>
+<span id="cb5-90"><a href="#cb5-90"></a><span class="in">```{python}</span></span>
+<span id="cb5-91"><a href="#cb5-91"></a><span class="kw">class</span> Country:</span>
+<span id="cb5-92"><a href="#cb5-92"></a>  data <span class="op">=</span> dfs</span>
+<span id="cb5-93"><a href="#cb5-93"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb5-94"><a href="#cb5-94"></a>  <span class="kw">def</span> underPop(threshold: <span class="bu">int</span>):</span>
+<span id="cb5-95"><a href="#cb5-95"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold, <span class="st">'country.value'</span>].values.tolist()</span>
+<span id="cb5-96"><a href="#cb5-96"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb5-97"><a href="#cb5-97"></a>  <span class="kw">def</span> underPopCount(threshold: <span class="bu">int</span>):</span>
+<span id="cb5-98"><a href="#cb5-98"></a>    <span class="cf">return</span> <span class="bu">len</span>(dfs.loc[dfs.population <span class="op">&lt;</span> threshold, <span class="st">'country.value'</span>].values.tolist())</span>
+<span id="cb5-99"><a href="#cb5-99"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb5-100"><a href="#cb5-100"></a>  <span class="kw">def</span> underPopMatrix(threshold: <span class="bu">int</span>):</span>
+<span id="cb5-101"><a href="#cb5-101"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold, [<span class="st">'gdp'</span>, <span class="st">'population'</span>]].values</span>
+<span id="cb5-102"><a href="#cb5-102"></a></span>
+<span id="cb5-103"><a href="#cb5-103"></a>  <span class="at">@staticmethod</span></span>
+<span id="cb5-104"><a href="#cb5-104"></a>  <span class="kw">def</span> underPopDf(threshold: <span class="bu">int</span>):</span>
+<span id="cb5-105"><a href="#cb5-105"></a>    <span class="cf">return</span> dfs.loc[dfs.population <span class="op">&lt;</span> threshold].rename({<span class="st">'country.value'</span>:<span class="st">'country'</span>})</span>
+<span id="cb5-106"><a href="#cb5-106"></a></span>
+<span id="cb5-107"><a href="#cb5-107"></a><span class="bu">print</span>(<span class="ss">f"The number of countries with population less than </span><span class="sc">{</span><span class="dv">150</span><span class="sc">}</span><span class="ss"> million is: </span><span class="sc">{</span>Country<span class="sc">.</span>underPopCount(<span class="dv">150</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-108"><a href="#cb5-108"></a><span class="in">```</span></span>
+<span id="cb5-109"><a href="#cb5-109"></a></span>
+<span id="cb5-110"><a href="#cb5-110"></a><span class="fu">## Convex Hull formulation</span></span>
+<span id="cb5-111"><a href="#cb5-111"></a></span>
+<span id="cb5-112"><a href="#cb5-112"></a>So we are going to set $N = N(P_T) = 183$. The goal is hence to find any point $\mathbf{x}\in\mathbf{Hull}(\Theta)$ with $\Theta = <span class="sc">\{</span>\theta_i<span class="sc">\}</span>_{i\in\mathbf{C}(P_T)}$ so that $\mathbf{1}^\mathsf{T}\mathbf{x}$ is minimal.</span>
+<span id="cb5-113"><a href="#cb5-113"></a></span>
+<span id="cb5-114"><a href="#cb5-114"></a>This means we are instead optimizing on the weights we give to each country $w_i \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>$, this weight corresponds to the fraction of the country that is going to receive aid.</span>
+<span id="cb5-115"><a href="#cb5-115"></a></span>
+<span id="cb5-116"><a href="#cb5-116"></a>Let $\mathbf{w}\in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>^N$ be those weights, one per country.</span>
+<span id="cb5-117"><a href="#cb5-117"></a>The problem can be cast into a LP through the constraints</span>
+<span id="cb5-118"><a href="#cb5-118"></a></span>
+<span id="cb5-119"><a href="#cb5-119"></a>$$\mathbf{1}^\mathsf{T}\mathbf{w} = 1 \quad\text{and}\quad \mathbf{C}\mathbf{w} = \mathbf{x} \quad\text{and}\quad \mathbf{w}\geq 0 $$</span>
+<span id="cb5-120"><a href="#cb5-120"></a></span>
+<span id="cb5-121"><a href="#cb5-121"></a>where </span>
+<span id="cb5-122"><a href="#cb5-122"></a></span>
+<span id="cb5-123"><a href="#cb5-123"></a>$$\mathbf{C} = \begin{bmatrix}</span>
+<span id="cb5-124"><a href="#cb5-124"></a>\theta^1 &amp; \theta^2 &amp; \cdots &amp;\theta^i &amp; \cdots &amp; \theta^N</span>
+<span id="cb5-125"><a href="#cb5-125"></a>\end{bmatrix} = \begin{bmatrix}\theta_1^1 &amp; \theta_1^2 &amp; \cdots &amp;\theta_1^i &amp; \cdots &amp; \theta^N_1 <span class="sc">\\</span></span>
+<span id="cb5-126"><a href="#cb5-126"></a>\theta_2^1 &amp; \theta_2^2 &amp; \cdots &amp;\theta_2^i &amp; \cdots &amp; \theta^N_1</span>
+<span id="cb5-127"><a href="#cb5-127"></a>\end{bmatrix}</span>
+<span id="cb5-128"><a href="#cb5-128"></a>$$</span>
+<span id="cb5-129"><a href="#cb5-129"></a></span>
+<span id="cb5-130"><a href="#cb5-130"></a>Hence</span>
+<span id="cb5-131"><a href="#cb5-131"></a></span>
+<span id="cb5-132"><a href="#cb5-132"></a>is just a matrix where we store the $N$ possible countries' GDP and populations.</span>
+<span id="cb5-133"><a href="#cb5-133"></a></span>
+<span id="cb5-134"><a href="#cb5-134"></a>This is not yet a LP, unless you realize you can just recast the objective as $\mathbf{1}^\mathsf{T}\mathbf{C}\mathbf{w} \triangleq \mathbf{c}^\mathsf{T}\mathbf{w}$.</span>
+<span id="cb5-135"><a href="#cb5-135"></a></span>
+<span id="cb5-136"><a href="#cb5-136"></a>As per the constraint, for the upper bound we just need that $\mathbf{B}\mathbf{C}\mathbf{w} = \mathbf{B}\mathbf{x}\leq \mathbf{b}$ where $\mathbf{B}$ is the matrix</span>
+<span id="cb5-137"><a href="#cb5-137"></a></span>
+<span id="cb5-138"><a href="#cb5-138"></a>$$\mathbf{B} = \left[\begin{array}{c:c}</span>
+<span id="cb5-139"><a href="#cb5-139"></a>0 &amp; 0<span class="sc">\\</span>\hdashline 0 &amp; 1\end{array}\right]$$</span>
+<span id="cb5-140"><a href="#cb5-140"></a></span>
+<span id="cb5-141"><a href="#cb5-141"></a>And the constraint $\mathbf{1}^\mathsf{T}\mathbf{w} = 1$ can be transformed into the variable integrates into the final block matrix </span>
+<span id="cb5-142"><a href="#cb5-142"></a></span>
+<span id="cb5-143"><a href="#cb5-143"></a>$$\mathbf{A} = \left[\begin{array}{c}</span>
+<span id="cb5-144"><a href="#cb5-144"></a>\mathbf{1}^\mathsf{T}<span class="sc">\\</span></span>
+<span id="cb5-145"><a href="#cb5-145"></a>\hdashline</span>
+<span id="cb5-146"><a href="#cb5-146"></a>\mathbf{B}\mathbf{C}\end{array}\right]</span>
+<span id="cb5-147"><a href="#cb5-147"></a>\implies \mathbf{A}\mathbf{w} = \mathbf{b}\quad\text{with}\quad\mathbf{b}=\left[\begin{array}{c}</span>
+<span id="cb5-148"><a href="#cb5-148"></a>1 <span class="sc">\\</span> 0<span class="sc">\\</span>P_T\end{array}\right]$$</span>
+<span id="cb5-149"><a href="#cb5-149"></a></span>
+<span id="cb5-150"><a href="#cb5-150"></a><span class="fu">### Addendum</span></span>
+<span id="cb5-151"><a href="#cb5-151"></a></span>
+<span id="cb5-152"><a href="#cb5-152"></a>It is clear that the true constraint isn't $\mathbf{A}\mathbf{x} = \mathbf{b}$, as one of the constraints is an inequality. This can be reality alleviated using so-called "slack variables", but solvers usually do that for us so we won't yet bother doing it manually.</span>
+<span id="cb5-153"><a href="#cb5-153"></a></span>
+<span id="cb5-154"><a href="#cb5-154"></a><span class="fu">## Final statement</span></span>
+<span id="cb5-155"><a href="#cb5-155"></a></span>
+<span id="cb5-156"><a href="#cb5-156"></a>The final problem is</span>
+<span id="cb5-157"><a href="#cb5-157"></a></span>
+<span id="cb5-158"><a href="#cb5-158"></a>$$</span>
+<span id="cb5-159"><a href="#cb5-159"></a>\begin{align*}</span>
+<span id="cb5-160"><a href="#cb5-160"></a>&amp;\min_\mathbf{w}\quad \mathbf{c}^\mathsf{T}\mathbf{w}<span class="sc">\\</span></span>
+<span id="cb5-161"><a href="#cb5-161"></a>&amp;\text{such that}\quad\mathbf{A}\mathbf{w} = \mathbf{b}<span class="sc">\\</span></span>
+<span id="cb5-162"><a href="#cb5-162"></a>&amp;\qquad\qquad\qquad\mathbf{w} \geq 0</span>
+<span id="cb5-163"><a href="#cb5-163"></a>\end{align*}</span>
+<span id="cb5-164"><a href="#cb5-164"></a>$$</span>
+<span id="cb5-165"><a href="#cb5-165"></a></span>
+<span id="cb5-166"><a href="#cb5-166"></a><span class="fu"># Solving the problem</span></span>
+<span id="cb5-167"><a href="#cb5-167"></a></span>
+<span id="cb5-168"><a href="#cb5-168"></a>We are going to use the nice library <span class="co">[</span><span class="ot">CVX</span><span class="co">](https://www.cvxpy.org/index.html)</span> to solve the problem.</span>
+<span id="cb5-169"><a href="#cb5-169"></a></span>
+<span id="cb5-172"><a href="#cb5-172"></a><span class="in">```{python}</span></span>
+<span id="cb5-173"><a href="#cb5-173"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
+<span id="cb5-174"><a href="#cb5-174"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-175"><a href="#cb5-175"></a></span>
+<span id="cb5-176"><a href="#cb5-176"></a>PopMax <span class="op">=</span> <span class="dv">150</span><span class="op">*</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span></span>
+<span id="cb5-177"><a href="#cb5-177"></a>N <span class="op">=</span> Country.underPopCount(PopMax)</span>
+<span id="cb5-178"><a href="#cb5-178"></a></span>
+<span id="cb5-179"><a href="#cb5-179"></a>C <span class="op">=</span> Country.underPopMatrix(PopMax)</span>
+<span id="cb5-180"><a href="#cb5-180"></a>C <span class="op">=</span> cp.Constant(np.log(C))</span>
+<span id="cb5-181"><a href="#cb5-181"></a>B <span class="op">=</span> cp.Constant([[<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">1</span>]])</span>
+<span id="cb5-182"><a href="#cb5-182"></a>b <span class="op">=</span> cp.Constant(np.array([<span class="dv">0</span>, np.log(PopMax)]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb5-183"><a href="#cb5-183"></a>ones <span class="op">=</span> cp.Constant(np.ones((N,<span class="dv">1</span>)))</span>
+<span id="cb5-184"><a href="#cb5-184"></a>agg <span class="op">=</span> cp.Constant(np.ones((<span class="dv">2</span>,<span class="dv">1</span>)))</span>
+<span id="cb5-185"><a href="#cb5-185"></a>c <span class="op">=</span>  C <span class="op">@</span> agg </span>
+<span id="cb5-186"><a href="#cb5-186"></a>w <span class="op">=</span> cp.Variable(shape<span class="op">=</span>(N,<span class="dv">1</span>), pos<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-187"><a href="#cb5-187"></a></span>
+<span id="cb5-188"><a href="#cb5-188"></a>prob <span class="op">=</span> cp.Problem( cp.Minimize( c.T <span class="op">@</span> w ),</span>
+<span id="cb5-189"><a href="#cb5-189"></a>constraints<span class="op">=</span>[</span>
+<span id="cb5-190"><a href="#cb5-190"></a>    w <span class="op">&gt;=</span> <span class="dv">0</span>,</span>
+<span id="cb5-191"><a href="#cb5-191"></a>    ones.T <span class="op">@</span> w <span class="op">==</span> <span class="dv">1</span>,</span>
+<span id="cb5-192"><a href="#cb5-192"></a>    B <span class="op">@</span> C.T <span class="op">@</span> w <span class="op">&lt;=</span> b]</span>
+<span id="cb5-193"><a href="#cb5-193"></a>    )</span>
+<span id="cb5-194"><a href="#cb5-194"></a></span>
+<span id="cb5-195"><a href="#cb5-195"></a>prob.solve(verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-196"><a href="#cb5-196"></a></span>
+<span id="cb5-197"><a href="#cb5-197"></a>dfr <span class="op">=</span> Country.underPopDf(PopMax)</span>
+<span id="cb5-198"><a href="#cb5-198"></a>dfr[<span class="st">'percentage'</span>] <span class="op">=</span> np.<span class="bu">round</span>(w.value,<span class="dv">10</span>)</span>
+<span id="cb5-199"><a href="#cb5-199"></a>dfr[dfr.percentage <span class="op">&gt;</span> <span class="dv">0</span>].sort_values(<span class="st">'percentage'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-200"><a href="#cb5-200"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

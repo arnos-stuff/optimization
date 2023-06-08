@@ -1,0 +1,135 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Optimization",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n\n\n\n\n\nV, Arno. 2023. Personal Website. https://cv.arnov.dev."
+  },
+  {
+    "objectID": "preface.html",
+    "href": "preface.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "2 About this book"
+  },
+  {
+    "objectID": "preface.html#the-cover-art",
+    "href": "preface.html#the-cover-art",
+    "title": "1  Introduction",
+    "section": "2.1 The cover art",
+    "text": "2.1 The cover art\nThis hand-made cover art (using Canva) is a tribute to Cover and Thomas (2006) in which there is a very interesting depiction of KL-Divergence projection onto a simplex to explain Sanov’s theorem and properties of typical distributions.\n\n\n\n\n\n\n\nCover, Thomas M., and Joy A. Thomas. 2006. Elements of Information Theory 2nd Edition (Wiley Series in Telecommunications and Signal Processing). Hardcover; Wiley-Interscience.\n\n\nV, Arno. 2023. Personal Website. https://cv.arnov.dev."
+  },
+  {
+    "objectID": "basics/first-definitions.html#first-definitions",
+    "href": "basics/first-definitions.html#first-definitions",
+    "title": "2  Review of Optimization basics",
+    "section": "2.1 First definitions",
+    "text": "2.1 First definitions\n\n2.1.1 Why we need Calculus\nSuppose you have a function f(x) and you want to find the value of x that makes f(x) as large as possible. This is called a maximum.\nOur issue is thus to find various forms of maxima and minima. We denote this problem as follows:\n\n\n\n\n\n\n\n\n\nNumber\nObjective Name\nMathematical expression\nKey elements\n\n\n\n\n(1)\nUnconstrained Maximization\n\\max_x f(x)\nThe only restriction on f is the nature of its admissible inputs \\mathbf{dom}(f)\n\n\n(2)\nFinding the global maximizer\nx^\\star \\gets \\argmax_x f(x)\nThere is generally a more restriction set of assumptions than in (1) to find the precise x^\\star for which f is minimized\n\n\n(3)\nFinding the a maximiser within a constraint set\n\\underset{x\\in\\mathcal{X}}{\\max f(x)}\nIn this case, there is no possibility for x to go outside of a predefined set \\mathcal{X}, this is very useful in real-life applications\n\n\n\nWhen is calculus useful and not useful ? Here’s a first reason it might or might not be useful: the domain \\mathcal{X} of the input variable, or (which is often the same), the domain \\mathbf{dom}(f) or our function.\nA pretty important part of the problem is what we call the domain of the function. This is the set of values that x can take on. For example, if f(x) = x^2, then the domain is the set of real numbers \\mathbb{R}.\nDomains change everything because, for example, if your domain \\mathbf{dom}(X) is discrete, then the image \\mathbf{im}_f(X) - also denoted f(\\mathbf{dom}(X)) - is also discrete, and you just end up with the array-sorting problem, for which efficient algorithms like quicksort exist..\n\n\n\n2.1.2 What is calculus ?\nThe derivative of a function f(x)\\colon \\mathbb{R}\\to\\mathbb{R} is a function f'(x) is just what everyone knows, that is the limit of\nf'(x) = \\lim_{h\\to 0} \\frac{f(x+h) - f(x)}{h}\nWhen you have a function of several variables, say f(x_1, x_2, \\dots, x_n), whose values are still real numbers, then you can still behave as if nothing happened, because if you fix the n-1 variables\n\\bar{x}_{\\scriptscriptstyle-i} \\coloneqq (\\bar{x}_1,\\ldots,\\bar{x}_{\\scriptscriptstyle i-1},x_{\\scriptscriptstyle i+1},\\dots\\bar{x}_n)\nThen the univariate function g(x_i) is still a function of a single variable, and you can still take its derivative:\n g\\colon x \\mapsto f(\\bar{x}_{\\scriptscriptstyle-i}, x) \\coloneqq f(\\bar{x}_1,\\ldots,\\bar{x}_{\\scriptscriptstyle i-1},x_i, x_{\\scriptscriptstyle i+1},\\dots\\bar{x}_n)\nWe have a bunch of fancy notation for this, namely \\partial_i f(\\bar{x}) for short, or \\frac{\\partial f}{\\partial x_i}(\\bar{x}). We also sometimes speak of the directional derivative of f in the direction of \\bar{x}, which is often denoted D_{\\bar{x}}f.\nWhat is not clear though, is how we relate each derivative to the others. How does \\partial_i f(\\bar{x}) relate to \\partial_j f(\\bar{x})?\nThere is a good theorem to explain this ! It is linked to something called the Jacobian matrix and the chain rule. But we’ll get to that later on.\n\n\n\n\n\n\nV, Arno. 2023. Personal Website. https://cv.arnov.dev."
+  },
+  {
+    "objectID": "basics/the-jacobian.html#the-proof",
+    "href": "basics/the-jacobian.html#the-proof",
+    "title": "3  The Jacobian",
+    "section": "3.1 The Proof",
+    "text": "3.1 The Proof\nThe uniqueness is fairly easy to prove, because if there are two matrices M_1 and M_2 such that f(x+h) \\approx f(x) + M_1h and f(x+h) \\approx f(x) + M_2h, then we can subtract the two equations, (M_1 - M_2)h = \\varepsilon_1 (h) + \\varepsilon_2 (h)\ndivide by \\lvert{h}\\rvert to get that the LHS tends to M_1 - M_2 as h\\to 0, and the RHS tends to 0 as h\\to 0, so we get that M_1 - M_2 = 0.\nThe existence is essentially the notion that we take matrices as rectangular arrays of numbers. In that sense, if the matrix M(x) has coefficients \\left(\\smash{\\alpha_{ij}(x)}\\right)_{i,j}, then we can write, our equation is merely a statement that is 1-D (which we know how to deal with):\n\\begin{aligned}\nf(x+h) &= f(x) + M(x)h +\\varepsilon (h) &\\\\\n\\iff f_j(x+h) &= f_j(x) + \\sum_{i=1}^m \\alpha_{ij}(x)h_j + \\varepsilon_j (h) &\\forall j\\in\\{1,\\dots m\\} \\\\\n\\iff f_j(x_i+h_i) &= f_j(x_i) + \\sum_{i=1}^m \\alpha_{ij}(x_i)h_j + \\varepsilon_j (h_i) &\\forall j\\in\\{1,\\dots m\\},\\,\\forall i\\in\\{1,\\dots n\\} \\\\\n\\end{aligned}\nThis last set of equation is just a m\\times n grid of first order approximations for each f_j at each x_i, and we can solve for the \\alpha_{ij} by just taking the limit as h_i\\to 0 for each i2.\nIf you hadn’t guessed before, each of these equations are looking very much like \\varphi(x+h) \\approx \\varphi(x) + \\varphi'(x)h + \\varepsilon(h)\nwe know in 1D, and we can just take the limit as h\\to 0 to get that \\varphi'(x) = \\alpha_{ij}(x).\nWhat this proves is 3 things:\n\nThe Jacobian is a matrix, and it is unique.\nThe Jacobian is a linear operator, and it is continuous.\nThe Jacobian matrix is populated by the partial derivatives of f, that is\n\n \\textbf{Jac}[f](x) = \\left[\\dfrac{\\partial f_j}{\\partial x_i}(x)\\right]_{\\substack{1\\leq i \\leq m\\\\1\\leq j \\leq n}}\n\n\n\n\n\n\nCareful about the dimensions !\n\n\n\nThe jacobian sends points from a n-dimensional space to a m-dimensional space, so the Jacobian matrix is a m\\times n matrix. This is why the partial derivatives are written in the order \\dfrac{\\partial f_j}{\\partial x_i}, because the jth row of the matrix is the partial derivatives of f_j with respect to the x_i’s.\nThis is very counterintuitive to anyone who works with the gradient \\nabla f(x), which is a n-dimensional vector, and is the transpose of the Jacobian matrix."
+  },
+  {
+    "objectID": "basics/the-jacobian.html#a-small-example-using-python",
+    "href": "basics/the-jacobian.html#a-small-example-using-python",
+    "title": "3  The Jacobian",
+    "section": "3.2 A small example using python",
+    "text": "3.2 A small example using python\nLet’s take a look at a small example I made using python’s sympy library. Through graphing increasingly complex 2D functions on an online tool, I found a function that is complex enough for us to have fun, but not too complex that we can’t understand it.\nThe function is:\nG(x,y) = \\log\\left[1+\\left(x^{\\frac{1}{3}} - y^{\\frac{2}{3}}\\right)^2\\left(0.1+\\sin \\left(x\\right)^2\\cdot \\cos \\left(x\\right)^2\\right)^{-1}\\right]\n\nBut I think it’s easier to understand if we write it as:\n G(x,y) = \\log\\left(1 + \\dfrac{A(x,y)^2}{\\gamma + B(x,y)^2}\\right)\nwith A(x,y) = x^{\\frac{1}{3}} - y^{\\frac{2}{3}} and B(x,y) = \\sin \\left(x\\right)\\cdot \\cos \\left(x\\right).\nWe can plot this function using plotly:\n\nNow let us see what happens if we slice this function G along a ray\n\\mathbf{Ray}(x_0) = \\{ (x,y)\\colon x = x_0\\}\nwhere x_0 is a constant. We can see that the function G is a function of y only, and we can plot it as a function of y:\n\n\n3.2.1 Computing the Jacobian\nWe can see that the function G is a function of y only, and we can plot it as a function of y:\nThis way we estimate the value \\displaystyle \\dfrac{\\partial G}{\\partial y}(x_0,y_0) at the point (x_0,y_0)\nI’m actually lazy enough that I didn’t want to do the math to find the Jacobian, so I just used sympy to do it for me. Here is the code:\nimport sympy as sy\n\nx,y,gamma,p,q = sy.symbols('x y gamma p q')\nY = sy.cos(x)*sy.sin(x)\nA = (x**p - y**q)\nB = gamma + Y*Y\nsG = sy.log(1+A*A/B)\nsdG = sy.Matrix([\n    [\n    sy.simplify(sy.diff(sG,x)),\n    sy.simplify(sy.diff(sG,y))\n    ]\n])\nmd(f\"$$\\\\mathbf{Jac}[G](x,y) = {sy.latex(sdG)}$$\")\nThis gives us the frankly terrifying result:\n\n\\mathbf{Jac}[G](x,y) \\coloneqq \\begin{bmatrix}\n\\frac{2 \\left(x^{p} - y^{q}\\right) \\left(p x^{p} \\left(\\gamma - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right) - \\frac{x \\left(x^{p} - y^{q}\\right) \\sin{\\left(4 x \\right)}}{4}\\right)}{x \\left(\\gamma - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right) \\left(\\gamma + \\left(x^{p} - y^{q}\\right)^{2} - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}\\right)} & &\n- \\frac{2 q y^{q - 1} \\left(x^{p} - y^{q}\\right)}{\\gamma + \\left(x^{p} - y^{q}\\right)^{2} - \\frac{\\cos{\\left(4 x \\right)}}{8} + \\frac{1}{8}}\\end{bmatrix}\n\n\n\n3.2.2 What does this mean ?\nAs we will see later, the Jacobian \\mathbf{Jac}[G] is a very important tool in optimization. The gradient is a vector that points in the direction of the steepest ascent of the function G at the point (x,y), & its norm is the slope of the function G at the point (x,y).\nSo as a last small exercise, let’s compute the countours of (x,y)\\mapsto \\lvert \\mathbf{Jac}[G](x,y) \\rvert and see what it looks like.\n\n\n\n\n\n\nV, Arno. 2023. Personal Website. https://cv.arnov.dev."
+  },
+  {
+    "objectID": "basics/the-jacobian.html#footnotes",
+    "href": "basics/the-jacobian.html#footnotes",
+    "title": "3  The Jacobian",
+    "section": "",
+    "text": "in the sense of a norm: \\lvert x\\rvert, \\varepsilon(h)/\\lvert x\\rvert\\to 0 as \\lvert x\\rvert\\to 0.↩︎\nThere is a subtelty here, because we can’t really just let any h_i to zero before the others arbitrarily, but if we do it in any order according to most used norms (here we’ll use the euclidean norm \\lvert \\cdot \\rvert), then we get that the limit exists and is unique.)↩︎"
+  },
+  {
+    "objectID": "examples/foreign-aid.html",
+    "href": "examples/foreign-aid.html",
+    "title": "4  Which country to give foreign aid to ?",
+    "section": "",
+    "text": "5 Solving the problem\nWe are going to use the nice library CVX to solve the problem.\nCode\nimport cvxpy as cp\nimport numpy as np\n\nPopMax = 150*10**6\nN = Country.underPopCount(PopMax)\n\nC = Country.underPopMatrix(PopMax)\nC = cp.Constant(np.log(C))\nB = cp.Constant([[0,0],[0,1]])\nb = cp.Constant(np.array([0, np.log(PopMax)]).reshape(-1,1))\nones = cp.Constant(np.ones((N,1)))\nagg = cp.Constant(np.ones((2,1)))\nc =  C @ agg \nw = cp.Variable(shape=(N,1), pos=True)\n\nprob = cp.Problem( cp.Minimize( c.T @ w ),\nconstraints=[\n    w &gt;= 0,\n    ones.T @ w == 1,\n    B @ C.T @ w &lt;= b]\n    )\n\nprob.solve(verbose=False)\n\ndfr = Country.underPopDf(PopMax)\ndfr['percentage'] = np.round(w.value,10)\ndfr[dfr.percentage &gt; 0].sort_values('percentage', ascending=False)\n\n\n\n\n\n\n\n\n\ncountry.value\npopulation\ngdp_per_capita\ngdp\npercentage\n\n\n\n\n178\nTuvalu\n11204.0\n5409.511692\n6.060817e+07\n1.000000e+00\n\n\n121\nNauru\n12511.0\n13125.348372\n1.642112e+08\n1.000000e-10"
+  },
+  {
+    "objectID": "examples/foreign-aid.html#the-log-trick",
+    "href": "examples/foreign-aid.html#the-log-trick",
+    "title": "4  Which country to give foreign aid to ?",
+    "section": "4.1 The log trick",
+    "text": "4.1 The log trick\nas \\log(\\cdot) is increasing, convex and smooth, any optimization problem can be taken to log space without affecting the objective.\nthis yields the objective \\tilde{C}(\\theta) \\triangleq \\log g - \\log p, with \\theta = (p,g).\nFurther, as we know that \\min_z f(z) = -\\max_z\\{-f(z)\\} are attained at the same point z^\\star, we can reframe the min-max problem as:\n\\min_{\\theta}\\left\\lbrace C(\\theta)\\right\\rbrace \\triangleq \\min_{\\theta}\\left\\lbrace \\log g + \\log p\\right\\rbrace = \\min_{\\theta}\\left\\lbrace \\mathbf{1}^\\mathsf{T}\\theta\\right\\rbrace\nthe constraints become \\theta_1, \\theta_2 \\in \\mathbb{R} and \\theta_1 \\leq \\log P_T."
+  },
+  {
+    "objectID": "examples/foreign-aid.html#but-what-is-the-domain",
+    "href": "examples/foreign-aid.html#but-what-is-the-domain",
+    "title": "4  Which country to give foreign aid to ?",
+    "section": "4.2 But what is the domain ?",
+    "text": "4.2 But what is the domain ?\nWe haven’t really defined constraints on g and p, they can’t obviously be anything.\nAs the problem states here, the goal is to be any finite combination of states. Let N(P_T) \\triangleq \\lvert \\mathbf{C}(P_T) \\rvert \\triangleq\\lvert \\{ i \\in \\mathbb{N} \\mid g_i \\leq P_T \\}\\rvert \nThis is the set of countries whose GDP is less than P_T.\nLet us figure out how many they are.\n\n\nCode\n# dependencies: pandas, wbdata\nimport wbdata as wb\nimport pandas as pd\n\nimport pandas as pd\nimport wbdata as wb\nimport re\n\ndef country(row):\n  ids = 'country.id'\n  vals = 'country.value'\n  if re.match(r\"\\d\\w\", row[ids]):\n    return False\n  elif re.match(r\"\\w\\d\", row[ids]):\n    return False\n  elif row['countryiso3code'] in ('HPC', 'IDB', 'IDX', 'IBD', 'LCN', 'LDC', 'OED', '', 'NAC'):\n    return False\n  else:\n    v = row[vals].lower()\n    if ('income' in v or 'total' in v or 'africa' in v or 'euro' in v or 'states' in v):\n      return False\n    else:\n      return True\n\ngdpc = wb.get_data(\"NY.GDP.PCAP.PP.CD\")\ndfg = pd.json_normalize(gdpc)\ndfgc = dfg[(dfg.apply(country, axis=1)) & (dfg.date.astype('int') &gt; 2018) & ~(dfg.value.isna())].drop_duplicates(subset=[\"country.id\"])\ndfp = wb.get_data(\"SP.POP.TOTL\")\ndfp = pd.json_normalize(dfp)\ndf = pd.merge(dfgc, dfp[[\"country.id\", \"date\", 'value']].rename(columns={\"value\":\"population\"}), on=[\"country.id\", \"date\"]).rename(columns={\"value\":\"gdp_per_capita\"})\ndfs = df[['country.value', 'population', 'gdp_per_capita']].copy()\ndfs['gdp'] = dfs.gdp_per_capita * dfs.population\n\ndfs\n\n\n\n\n\n\n\n\n\ncountry.value\npopulation\ngdp_per_capita\ngdp\n\n\n\n\n0\nAfghanistan\n40099462.0\n1665.805842\n6.679792e+10\n\n\n1\nAlbania\n2811666.0\n15814.411571\n4.446484e+10\n\n\n2\nAlgeria\n44177969.0\n12128.274991\n5.358026e+11\n\n\n3\nAngola\n34503774.0\n6491.125578\n2.239683e+11\n\n\n4\nAntigua and Barbuda\n93219.0\n21010.003574\n1.958532e+09\n\n\n...\n...\n...\n...\n...\n\n\n185\nVanuatu\n319137.0\n3057.411400\n9.757331e+08\n\n\n186\nVietnam\n97468029.0\n11676.108560\n1.138047e+12\n\n\n187\nWest Bank and Gaza\n4922749.0\n6199.451018\n3.051834e+10\n\n\n188\nZambia\n19473125.0\n3555.920229\n6.924488e+10\n\n\n189\nZimbabwe\n15993524.0\n2323.687257\n3.716395e+10\n\n\n\n\n190 rows × 4 columns\n\n\n\nLet us build the model. For that we need N\n\n\nCode\nclass Country:\n  data = dfs\n  @staticmethod\n  def underPop(threshold: int):\n    return dfs.loc[dfs.population &lt; threshold, 'country.value'].values.tolist()\n  @staticmethod\n  def underPopCount(threshold: int):\n    return len(dfs.loc[dfs.population &lt; threshold, 'country.value'].values.tolist())\n  @staticmethod\n  def underPopMatrix(threshold: int):\n    return dfs.loc[dfs.population &lt; threshold, ['gdp', 'population']].values\n\n  @staticmethod\n  def underPopDf(threshold: int):\n    return dfs.loc[dfs.population &lt; threshold].rename({'country.value':'country'})\n\nprint(f\"The number of countries with population less than {150} million is: {Country.underPopCount(150*10**6)}\")\n\n\nThe number of countries with population less than 150 million is: 183"
+  },
+  {
+    "objectID": "examples/foreign-aid.html#convex-hull-formulation",
+    "href": "examples/foreign-aid.html#convex-hull-formulation",
+    "title": "4  Which country to give foreign aid to ?",
+    "section": "4.3 Convex Hull formulation",
+    "text": "4.3 Convex Hull formulation\nSo we are going to set N = N(P_T) = 183. The goal is hence to find any point \\mathbf{x}\\in\\mathbf{Hull}(\\Theta) with \\Theta = \\{\\theta_i\\}_{i\\in\\mathbf{C}(P_T)} so that \\mathbf{1}^\\mathsf{T}\\mathbf{x} is minimal.\nThis means we are instead optimizing on the weights we give to each country w_i \\in [0,1], this weight corresponds to the fraction of the country that is going to receive aid.\nLet \\mathbf{w}\\in [0,1]^N be those weights, one per country. The problem can be cast into a LP through the constraints\n\\mathbf{1}^\\mathsf{T}\\mathbf{w} = 1 \\quad\\text{and}\\quad \\mathbf{C}\\mathbf{w} = \\mathbf{x} \\quad\\text{and}\\quad \\mathbf{w}\\geq 0 \nwhere\n\\mathbf{C} = \\begin{bmatrix}\n\\theta^1 & \\theta^2 & \\cdots &\\theta^i & \\cdots & \\theta^N\n\\end{bmatrix} = \\begin{bmatrix}\\theta_1^1 & \\theta_1^2 & \\cdots &\\theta_1^i & \\cdots & \\theta^N_1 \\\\\n\\theta_2^1 & \\theta_2^2 & \\cdots &\\theta_2^i & \\cdots & \\theta^N_1\n\\end{bmatrix}\n\nHence\nis just a matrix where we store the N possible countries’ GDP and populations.\nThis is not yet a LP, unless you realize you can just recast the objective as \\mathbf{1}^\\mathsf{T}\\mathbf{C}\\mathbf{w} \\triangleq \\mathbf{c}^\\mathsf{T}\\mathbf{w}.\nAs per the constraint, for the upper bound we just need that \\mathbf{B}\\mathbf{C}\\mathbf{w} = \\mathbf{B}\\mathbf{x}\\leq \\mathbf{b} where \\mathbf{B} is the matrix\n\\mathbf{B} = \\left[\\begin{array}{c:c}\n0 & 0\\\\\\hdashline 0 & 1\\end{array}\\right]\nAnd the constraint \\mathbf{1}^\\mathsf{T}\\mathbf{w} = 1 can be transformed into the variable integrates into the final block matrix\n\\mathbf{A} = \\left[\\begin{array}{c}\n\\mathbf{1}^\\mathsf{T}\\\\\n\\hdashline\n\\mathbf{B}\\mathbf{C}\\end{array}\\right]\n\\implies \\mathbf{A}\\mathbf{w} = \\mathbf{b}\\quad\\text{with}\\quad\\mathbf{b}=\\left[\\begin{array}{c}\n1 \\\\ 0\\\\P_T\\end{array}\\right]\n\n4.3.1 Addendum\nIt is clear that the true constraint isn’t \\mathbf{A}\\mathbf{x} = \\mathbf{b}, as one of the constraints is an inequality. This can be reality alleviated using so-called “slack variables”, but solvers usually do that for us so we won’t yet bother doing it manually."
+  },
+  {
+    "objectID": "examples/foreign-aid.html#final-statement",
+    "href": "examples/foreign-aid.html#final-statement",
+    "title": "4  Which country to give foreign aid to ?",
+    "section": "4.4 Final statement",
+    "text": "4.4 Final statement\nThe final problem is\n\n\\begin{align*}\n&\\min_\\mathbf{w}\\quad \\mathbf{c}^\\mathsf{T}\\mathbf{w}\\\\\n&\\text{such that}\\quad\\mathbf{A}\\mathbf{w} = \\mathbf{b}\\\\\n&\\qquad\\qquad\\qquad\\mathbf{w} \\geq 0\n\\end{align*}"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "5  About",
+    "section": "",
+    "text": "6 Hi 👋, I’m Arno!\nHere’s a short introduction about me:"
+  },
+  {
+    "objectID": "about.html#what-i-do",
+    "href": "about.html#what-i-do",
+    "title": "5  About",
+    "section": "6.1 What I do",
+    "text": "6.1 What I do\nI’m currently working as a junior IT & Data Consultant somewhere in the very pretty business hub of La Défense, but I’m also trying to learn a bit more about programming and web development. I’m a self-anointed pythonista 🐍, but I’m trying to learn Julia & Javascript aswell !\nI also work a lot with SQL at my current job, though I’m eyeing on the recent trends like Snowflake and BigQuery 👀.\nHere’s a picture of my workplace (and some others I took in the area):"
+  },
+  {
+    "objectID": "about.html#what-im-working-on",
+    "href": "about.html#what-im-working-on",
+    "title": "5  About",
+    "section": "6.2 What I’m working on",
+    "text": "6.2 What I’m working on\nI’m currently working on a few projects, but I’m not sure I’ll be able to finish them anytime soon. I’m also trying to learn a bit more about web development, so I’m trying to make a few websites. Here’s a list of the projects I’m currently working on:\n\n\n\n\n\n\n\n\nNumber\nLanguage\nDescription\n\n\n\n\n1\n🐍\nA few unpolished python packages\n\n\n2\n🐍\nA python data API for eurostat related data\n\n\n3\nJS\nA Vue.js website to slowly learn Vue.js\n\n\n4\n🤓\nA small blog about math related topics when I feel like talking theory\n\n\n\nThat’s a lot ! But I also have some personnal matters …"
+  },
+  {
+    "objectID": "about.html#im-autistic-queer",
+    "href": "about.html#im-autistic-queer",
+    "title": "5  About",
+    "section": "7.1 I’m Autistic & Queer",
+    "text": "7.1 I’m Autistic & Queer\nI’m a proud Aspie / Neurodivergent person, I received an official diagnosis from Hôpital Saint-Anne in Paris, France a year or so ago. They’re considered a bit competent on the topic so I trust them.\n\n\n\nI’m also most probably trans 🏳️‍⚧️, but I’m not sure 100% yet. I’m currently trying to figure out how to go about it, the process is a bit complicated in France, but it’s a work in progress.\nI wrote a short piece about the relationship between autism and gender diversity a while back."
+  },
+  {
+    "objectID": "about.html#i-like-games",
+    "href": "about.html#i-like-games",
+    "title": "5  About",
+    "section": "7.2 I like games",
+    "text": "7.2 I like games\nI’m also a big video game player, so maybe we can play together sometime ! I’m currently a bit busy with work, but I’d love to share some factoids about my favorite games."
+  },
+  {
+    "objectID": "about.html#i-like-music",
+    "href": "about.html#i-like-music",
+    "title": "5  About",
+    "section": "7.3 I like music",
+    "text": "7.3 I like music\nI’m a HUGE music nerd, just to name a few of my favorite genres:\n\n\n\n\n\n\n\nGenre\nDescription\n\n\n\n\n70’s rock\nespecially progressive rock and Cantebury scene / Krautrock bands\n\n\nBebop and Hard-Bop\nThe golden age of Bebop and Hard-Bop, especially the work of Miles Davis, who helped me bridge the gap between Jazz and Rock (I’m a huge fan of his work with John McLaughlin)\n\n\nIDM\nEspecially the work of μ-Ziq, Floating Points, Squarepusher, and Boards of Canada\n\n\nHip-Hop\nThe classics, especially the work of MF Doom, Madlib, and J Dilla\n\n\nHyperpop\nI’m a huge fan of the work of Charli XCX !\n\n\nK-pop\nI’ve recently discovered I like K-pop thanks to League of Legends’ KDA group, and I’m slowly getting into the genre ..\n\n\nMetal\nI love Gojira obviously, but a lot of artists here and there, the progressive Metal scene is pretty dope aswell 🤩\n\n\n\n… and many more 🎵"
+  },
+  {
+    "objectID": "about.html#i-like-math",
+    "href": "about.html#i-like-math",
+    "title": "5  About",
+    "section": "7.4 I like math",
+    "text": "7.4 I like math\nI’m also a big math nerd, I’m currently trying to learn a bit more about statistics and probability theory, as I’m a recovering tentative PhD grad (I worked on Causal Inference back in Shanghai).\nI’d love learning more, but I’m busy and already have a lot to do !\n\n\n\n\n\n\nV, Arno. 2023. Personal Website. https://cv.arnov.dev."
+  }
+]
